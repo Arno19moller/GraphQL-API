@@ -5,9 +5,11 @@ namespace GraphQL.Entities;
 
 public partial class FilmActor
 {
-    public ushort ActorId { get; set; }
+	[GraphQLType(typeof(IntType))]
+	public ushort ActorId { get; set; }
 
-    public ushort FilmId { get; set; }
+	[GraphQLType(typeof(IntType))]
+	public ushort FilmId { get; set; }
 
     public DateTime LastUpdate { get; set; }
 

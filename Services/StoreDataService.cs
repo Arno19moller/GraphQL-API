@@ -1,4 +1,5 @@
 ﻿using GraphQL.Data;
+using GraphQL.Entities;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -11,5 +12,9 @@ namespace GraphQL_API.Services.Interfaces
             _dbContext = dbContext;
         }
 
+        public List<Store> GetStores(int numStores, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

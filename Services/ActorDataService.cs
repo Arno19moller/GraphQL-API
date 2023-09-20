@@ -14,7 +14,7 @@ namespace GraphQL_API.Services
 			_dbContext = dbContext;
 		}
 
-		public List<Actor> GetActorsAsync(int numActors, CancellationToken cancellationToken = default)
+		public List<Actor> GetActors(int numActors, CancellationToken cancellationToken = default)
 		{
 			return _dbContext.Actors.Include(x => x.FilmActors)
 							 .AsNoTracking()

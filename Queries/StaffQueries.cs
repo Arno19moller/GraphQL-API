@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class StaffQueries
 	{
-        public async Task<List<Actor>> GetStaffData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<Staff>> GetStaffData(int numStaff, [Service] IStaffDataService staffService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return staffService.GetStaff(numStaff, cancellationToken);
         }
     }
 }

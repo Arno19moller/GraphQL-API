@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class FilmTextQueries
 	{
-        public async Task<List<Actor>> GetFilmTextData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<FilmText>> GetFilmTextData(int numFilmTexts, [Service] IFilmTextDataService filmTextService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return filmTextService.GetFilmTexts(numFilmTexts, cancellationToken);
         }
     }
 }

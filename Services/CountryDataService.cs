@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -14,7 +15,10 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<Country> GetCountries(int numCountries, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Countries.Include(x => x.Cities)
+                 .AsNoTracking()
+                 .Take(numCountries)
+                 .ToList();
         }
     }
 }

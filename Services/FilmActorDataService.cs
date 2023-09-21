@@ -15,11 +15,12 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<FilmActor> GetFilmActors(int numFilmActors, CancellationToken cancellationToken = default)
         {
-            return _dbContext.FilmActors.Include(x => x.Actor)
-                               .AsNoTracking()
-                               .Include(x => x.Film)
-                               .Take(numFilmActors)
-                               .ToList();
+            return _dbContext.FilmActors
+                .Include(x => x.Actor)
+                .Include(x => x.Film)
+                .AsNoTracking()
+                .Take(numFilmActors)
+                .ToList();
         }
     }
 }

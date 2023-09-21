@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class CountryQueries
 	{
-        public async Task<List<Actor>> GetCountryData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<Country>> GetCountryData(int numCountries, [Service] ICountryDataService countryService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return countryService.GetCountries(numCountries, cancellationToken);
         }
     }
 }

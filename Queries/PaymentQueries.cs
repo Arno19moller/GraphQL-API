@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class PaymentQueries
 	{
-        public async Task<List<Actor>> GetPaymentData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<Payment>> GetPaymentData(int numPayment, [Service] IPaymentDataService paymentService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return paymentService.GetPayments(numPayment, cancellationToken);
         }
     }
 }

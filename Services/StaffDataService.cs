@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -14,7 +15,15 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<Staff> GetStaff(int numStaff, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Staff
+                .Include(x => x.Address)
+                .Include(x => x.Payments)
+                .Include(x => x.Rentals)
+                .Include(x => x.StoreNavigation)
+                .Include(x => x.Store)
+                .AsNoTracking()
+                .Take(numStaff)
+                .ToList();
         }
     }
 }

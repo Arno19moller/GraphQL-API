@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -14,7 +15,10 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<Category> GetCategories(int numCategories, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Categories.Include(x => x.FilmCategories)
+                             .AsNoTracking()
+                             .Take(numCategories)
+                             .ToList();
         }
     }
 }

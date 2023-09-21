@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -14,7 +15,15 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<Store> GetStores(int numStores, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Stores
+                .Include(x => x.Address)
+                .Include(x => x.Customers)
+                .Include(x => x.Inventories)
+                .Include(x => x.Staff)
+                .Include(x => x.ManagerStaff)
+                .AsNoTracking()
+                .Take(numStores)
+                .ToList();
         }
     }
 }

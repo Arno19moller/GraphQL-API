@@ -9,7 +9,7 @@ namespace GraphQL_API.Queries
 	{
 		public async Task<List<Actor>> GetActorData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
 		{
-			return actorService.GetActorsAsync(numActors, cancellationToken);
+			return actorService.GetActors(numActors, cancellationToken);
 		}
     }
 }

@@ -6,6 +6,7 @@ namespace GraphQL.Entities;
 
 public partial class Address
 {
+    [GraphQLType(typeof(IntType))]
     public ushort AddressId { get; set; }
 
     public string Address1 { get; set; } = null!;
@@ -14,14 +15,17 @@ public partial class Address
 
     public string District { get; set; } = null!;
 
+    [GraphQLType(typeof(IntType))]
     public ushort CityId { get; set; }
 
     public string? PostalCode { get; set; }
 
     public string Phone { get; set; } = null!;
 
+    [GraphQLIgnore]
     public MySqlGeometry Location { get; set; }
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
     public virtual City City { get; set; } = null!;

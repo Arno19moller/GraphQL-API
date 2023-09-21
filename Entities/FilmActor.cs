@@ -11,6 +11,7 @@ public partial class FilmActor
 	[GraphQLType(typeof(IntType))]
 	public ushort FilmId { get; set; }
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
     public virtual Actor Actor { get; set; } = null!;

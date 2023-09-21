@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -14,7 +15,12 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<Language> GetLanguages(int numLanguages, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Languages
+                .Include(x => x.FilmLanguages)
+                .Include(x => x.FilmOriginalLanguages)
+                .AsNoTracking()
+                .Take(numLanguages)
+                .ToList();
         }
     }
 }

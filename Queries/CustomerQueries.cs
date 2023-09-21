@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class CustomerQueries
 	{
-        public async Task<List<Actor>> GetCustomerData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<Customer>> GetCustomerData(int numCustomers, [Service] ICustomerDataService customerService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return customerService.GetCustomers(numCustomers, cancellationToken);
         }
     }
 }

@@ -37,6 +37,22 @@ internal class Program
 		});
 
 		serviceCollection.AddScoped<IActorDataService, ActorDataService>();
+		serviceCollection.AddScoped<IAddressDataService, AddressDataService>();
+		serviceCollection.AddScoped<ICategoryDataService, CategoryDataService>();
+		serviceCollection.AddScoped<ICityDataService, CityDataService>();
+		serviceCollection.AddScoped<ICountryDataService, CountryDataService>();
+		serviceCollection.AddScoped<ICustomerDataService, CustomerDataService>();
+		serviceCollection.AddScoped<IFilmActorDataService, FilmActorDataService>();
+		serviceCollection.AddScoped<IFilmCategoryDataService, FilmCategoryDataService>();
+		serviceCollection.AddScoped<IFilmDataService, FilmDataService>();
+		serviceCollection.AddScoped<IFilmTextDataService, FilmTextDataService>();
+		serviceCollection.AddScoped<IInventoryDataService, InventoryDataService>();
+		serviceCollection.AddScoped<ILanguageDataService, LanguageDataService>();
+		serviceCollection.AddScoped<IPaymentDataService, PaymentDataService>();
+		serviceCollection.AddScoped<IRentalDataService, RentalDataService>();
+		serviceCollection.AddScoped<IStaffDataService, StaffDataService>();
+		serviceCollection.AddScoped<IStoreDataService, StoreDataService>();
+
 		serviceCollection.AddDbContext<SakilaContext>(options => options.UseMySQL(builder.Configuration.GetValue<string>("DefaultConnection")), ServiceLifetime.Transient);
 		serviceCollection.AddHttpContextAccessor();
 	}

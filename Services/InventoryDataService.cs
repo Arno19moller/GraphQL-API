@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -14,7 +15,13 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<Inventory> GetInventories(int numInventories, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Inventories
+                 .Include(x => x.Film)
+                 .Include(x => x.Rentals)
+                 .Include(x => x.Store)
+                 .AsNoTracking()
+                 .Take(numInventories)
+                 .ToList();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -12,9 +13,12 @@ namespace GraphQL_API.Services.Interfaces
             _dbContext = dbContext;
         }
 
-        public List<Film> GetFilmTexts(int numFilmTexts, CancellationToken cancellationToken = default)
+        public List<FilmText> GetFilmTexts(int numFilmTexts, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.FilmTexts
+                .AsNoTracking()
+                .Take(numFilmTexts)
+                .ToList();
         }
     }
 }

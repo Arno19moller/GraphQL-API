@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class InventoryQueries
 	{
-        public async Task<List<Actor>> GetInventoryData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<Inventory>> GetInventoryData(int numInventories, [Service] IInventoryDataService InventoryService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return InventoryService.GetInventories(numInventories, cancellationToken);
         }
     }
 }

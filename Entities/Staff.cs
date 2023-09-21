@@ -5,26 +5,32 @@ namespace GraphQL.Entities;
 
 public partial class Staff
 {
+    [GraphQLType(typeof(IntType))]
     public byte StaffId { get; set; }
 
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
 
+    [GraphQLType(typeof(IntType))]
     public ushort AddressId { get; set; }
 
+    [GraphQLType(typeof(ByteArrayType))]
     public byte[]? Picture { get; set; }
 
     public string? Email { get; set; }
 
+    [GraphQLType(typeof(IntType))]
     public byte StoreId { get; set; }
 
+    [GraphQLType(typeof(BooleanType))]
     public bool? Active { get; set; }
 
     public string Username { get; set; } = null!;
 
     public string? Password { get; set; }
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
     public virtual Address Address { get; set; } = null!;

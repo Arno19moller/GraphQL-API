@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class StoreQueries
 	{
-        public async Task<List<Actor>> GetStoreData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<Store>> GetStoreData(int numStores, [Service] IStoreDataService storeService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return storeService.GetStores(numStores, cancellationToken);
         }
     }
 }

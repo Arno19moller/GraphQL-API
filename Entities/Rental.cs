@@ -5,18 +5,23 @@ namespace GraphQL.Entities;
 
 public partial class Rental
 {
+    [GraphQLType(typeof(IntType))]
     public int RentalId { get; set; }
 
     public DateTime RentalDate { get; set; }
 
+    [GraphQLType(typeof(IntType))]
     public uint InventoryId { get; set; }
 
+    [GraphQLType(typeof(IntType))]
     public ushort CustomerId { get; set; }
 
     public DateTime? ReturnDate { get; set; }
 
+    [GraphQLType(typeof(IntType))]
     public byte StaffId { get; set; }
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
     public virtual Customer Customer { get; set; } = null!;

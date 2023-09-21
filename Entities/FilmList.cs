@@ -5,6 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class FilmList
 {
+    [GraphQLType(typeof(IntType))]
     public ushort Fid { get; set; }
 
     public string Title { get; set; } = null!;
@@ -13,8 +14,10 @@ public partial class FilmList
 
     public string? Category { get; set; }
 
+    [GraphQLType(typeof(FloatType))]
     public decimal Price { get; set; }
 
+    [GraphQLType(typeof(IntType))]
     public ushort? Length { get; set; }
 
     public string? Rating { get; set; }

@@ -7,9 +7,9 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class AddressQueries
 	{
-        public async Task<List<Actor>> GetAddressData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
+        public async Task<List<Address>> GetAddressData(int numAdresses, [Service] IAddressDataService addressService, CancellationToken cancellationToken)
         {
-            return actorService.GetActorsAsync(numActors, cancellationToken);
+            return addressService.GetAddresses(numAdresses, cancellationToken);
         }
     }
 }

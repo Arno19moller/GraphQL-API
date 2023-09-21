@@ -4,6 +4,6 @@ namespace GraphQL_API.Services.Interfaces
 {
     public interface IFilmTextDataService
     {
-        List<Film> GetFilmTexts(int numFilmTexts, CancellationToken cancellationToken = default);
+        List<FilmText> GetFilmTexts(int numFilmTexts, CancellationToken cancellationToken = default);
     }
 }

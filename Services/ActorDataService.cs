@@ -16,7 +16,8 @@ namespace GraphQL_API.Services
 
 		public List<Actor> GetActors(int numActors, CancellationToken cancellationToken = default)
 		{
-			return _dbContext.Actors.Include(x => x.FilmActors)
+			return _dbContext.Actors
+							 .Include(x => x.FilmActors)
 							 .AsNoTracking()
 							 .Take(numActors)
 							 .ToList();

@@ -1,5 +1,6 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
 {
@@ -14,7 +15,13 @@ namespace GraphQL_API.Services.Interfaces
 
         public List<Payment> GetPayments(int numPayments, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return _dbContext.Payments
+                .Include(x => x.Customer)
+                .Include(x => x.Rental)
+                .Include(x => x.Staff)
+                .AsNoTracking()
+                .Take(numPayments)
+                .ToList();
         }
     }
 }

@@ -1,20 +1,15 @@
 ﻿using GraphQL.Entities;
-using GraphQL_API.Services;
+using GraphQL_API.Services.Interfaces;
 using HotChocolate;
 
 namespace GraphQL_API.Queries
 {
-	[ExtendObjectType(Name = "Query")]
+    [ExtendObjectType(Name = "Query")]
 	public class ActorQueries
 	{
 		public async Task<List<Actor>> GetActorData(int numActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
 		{
-			return await actorService.GetActorsAsync(numActors, cancellationToken);
+			return actorService.GetActors(numActors, cancellationToken);
 		}
-
-		public async Task<List<FilmActor>> GetFilmActorsAsync(int numFilmActors, [Service] IActorDataService actorService, CancellationToken cancellationToken)
-		{
-			return await actorService.GetFilmActors(numFilmActors, cancellationToken);
-		}
-	}
+    }
 }

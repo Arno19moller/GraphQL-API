@@ -5,10 +5,12 @@ namespace GraphQL.Entities;
 
 public partial class Category
 {
+    [GraphQLType(typeof(IntType))]
     public byte CategoryId { get; set; }
 
     public string Name { get; set; } = null!;
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
     public virtual ICollection<FilmCategory> FilmCategories { get; set; } = new List<FilmCategory>();

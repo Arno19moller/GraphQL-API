@@ -5,12 +5,16 @@ namespace GraphQL.Entities;
 
 public partial class Store
 {
+    [GraphQLType(typeof(IntType))]
     public byte StoreId { get; set; }
 
+    [GraphQLType(typeof(IntType))]
     public byte ManagerStaffId { get; set; }
 
+    [GraphQLType(typeof(IntType))]
     public ushort AddressId { get; set; }
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
     public virtual Address Address { get; set; } = null!;

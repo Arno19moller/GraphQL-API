@@ -1,10 +1,11 @@
 ﻿using GraphQL.Data;
 using GraphQL.Entities;
+using GraphQL_API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services
 {
-	public class ActorDataService: IActorDataService
+    public class ActorDataService: IActorDataService
 	{
 		private readonly SakilaContext _dbContext;
 
@@ -13,19 +14,13 @@ namespace GraphQL_API.Services
 			_dbContext = dbContext;
 		}
 
-		public async Task<List<Actor>> GetActorsAsync(int numActors, CancellationToken cancellationToken = default)
+		public List<Actor> GetActors(int numActors, CancellationToken cancellationToken = default)
 		{
-			return await _dbContext.Actors.Include(x => x.FilmActors)
-								 .Take(numActors)
-								 .ToListAsync(cancellationToken);
-		}
-
-		public Task<List<FilmActor>> GetFilmActors(int numFilmActors, CancellationToken cancellationToken = default)
-		{
-			return _dbContext.FilmActors.Include(x => x.Actor)
-							   .Include(x => x.Film)
-							   .Take(numFilmActors)
-							   .ToListAsync(cancellationToken);
+			return _dbContext.Actors
+							 .Include(x => x.FilmActors)
+							 .AsNoTracking()
+							 .Take(numActors)
+							 .ToList();
 		}
 	}
 }

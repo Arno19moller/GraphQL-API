@@ -13,10 +13,11 @@ public partial class Actor
 
     public string LastName { get; set; } = null!;
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
 	//[GraphQLIgnore]
-	public virtual ICollection<FilmActor> FilmActors { get; set; } = new List<FilmActor>();
+	public virtual ICollection<FilmActor>? FilmActors { get; set; } = new List<FilmActor>();
 }
 
 //public class ActorType : ObjectType<Actor>

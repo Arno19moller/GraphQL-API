@@ -37,15 +37,21 @@ public partial class Film
 
     public string? SpecialFeatures { get; set; }
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
-	[GraphQLIgnore]
+	
+
 	public virtual ICollection<FilmActor> FilmActors { get; set; } = new List<FilmActor>();
-	[GraphQLIgnore]
+	
+
 	public virtual ICollection<FilmCategory> FilmCategories { get; set; } = new List<FilmCategory>();
-	[GraphQLIgnore]
+	
+
 	public virtual ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
-	[GraphQLIgnore]
+	
+
 	public virtual Language Language { get; set; } = null!;
-	[GraphQLIgnore]
+	
+
 	public virtual Language? OriginalLanguage { get; set; }
 }

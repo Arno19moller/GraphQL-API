@@ -9,5 +9,6 @@ public partial class SalesByStore
 
     public string? Manager { get; set; }
 
+    [GraphQLType(typeof(FloatType))]
     public decimal? TotalSales { get; set; }
 }

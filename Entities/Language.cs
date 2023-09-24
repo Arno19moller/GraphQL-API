@@ -5,10 +5,12 @@ namespace GraphQL.Entities;
 
 public partial class Language
 {
+    [GraphQLType(typeof(IntType))]
     public byte LanguageId { get; set; }
 
     public string Name { get; set; } = null!;
 
+    [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
     public virtual ICollection<Film> FilmLanguages { get; set; } = new List<Film>();

@@ -5,12 +5,12 @@ namespace GraphQL.Entities;
 
 public partial class City
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort CityId { get; set; }
 
     public string City1 { get; set; } = null!;
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort CountryId { get; set; }
 
     [GraphQLType(typeof(DateTimeType))]

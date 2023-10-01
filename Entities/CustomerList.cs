@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class CustomerList
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort Id { get; set; }
 
     public string? Name { get; set; }
@@ -22,6 +22,6 @@ public partial class CustomerList
 
     public string Notes { get; set; } = null!;
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte Sid { get; set; }
 }

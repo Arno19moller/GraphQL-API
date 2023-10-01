@@ -5,14 +5,14 @@ namespace GraphQL.Entities;
 
 public partial class Staff
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte StaffId { get; set; }
 
     public string FirstName { get; set; } = null!;
 
     public string LastName { get; set; } = null!;
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort AddressId { get; set; }
 
     [GraphQLType(typeof(ByteArrayType))]
@@ -20,7 +20,7 @@ public partial class Staff
 
     public string? Email { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte StoreId { get; set; }
 
     [GraphQLType(typeof(BooleanType))]

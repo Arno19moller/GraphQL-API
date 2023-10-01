@@ -5,10 +5,10 @@ namespace GraphQL.Entities;
 
 public partial class FilmCategory
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort FilmId { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte CategoryId { get; set; }
 
     [GraphQLType(typeof(DateTimeType))]

@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class Film
 {
-	[GraphQLType(typeof(IntType))]
+	[GraphQLType(typeof(IdType))]
 	public ushort FilmId { get; set; }
 
     public string Title { get; set; } = null!;
@@ -15,10 +15,10 @@ public partial class Film
 	[GraphQLType(typeof(IntType))]
 	public int? ReleaseYear { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte LanguageId { get; set; }
 
-	[GraphQLType(typeof(IntType))]
+	[GraphQLType(typeof(IdType))]
 	public byte? OriginalLanguageId { get; set; }
 
 	[GraphQLType(typeof(IntType))]

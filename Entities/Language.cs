@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class Language
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte LanguageId { get; set; }
 
     public string Name { get; set; } = null!;

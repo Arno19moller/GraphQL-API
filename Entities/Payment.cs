@@ -5,16 +5,16 @@ namespace GraphQL.Entities;
 
 public partial class Payment
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort PaymentId { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort CustomerId { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte StaffId { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public int? RentalId { get; set; }
 
     [GraphQLType(typeof(IntType))]

@@ -5,13 +5,13 @@ namespace GraphQL.Entities;
 
 public partial class Inventory
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public uint InventoryId { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort FilmId { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte StoreId { get; set; }
 
     [GraphQLType(typeof(DateTimeType))]

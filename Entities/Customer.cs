@@ -5,10 +5,10 @@ namespace GraphQL.Entities;
 
 public partial class Customer
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort CustomerId { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte StoreId { get; set; }
 
     public string FirstName { get; set; } = null!;
@@ -17,7 +17,7 @@ public partial class Customer
 
     public string? Email { get; set; }
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort AddressId { get; set; }
 
     [GraphQLType(typeof(BooleanType))]

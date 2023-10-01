@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class Category
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte CategoryId { get; set; }
 
     public string Name { get; set; } = null!;

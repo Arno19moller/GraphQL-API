@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class Country
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort CountryId { get; set; }
 
     public string Country1 { get; set; } = null!;

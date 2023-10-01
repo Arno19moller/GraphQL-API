@@ -6,7 +6,7 @@ namespace GraphQL.Entities;
 
 public partial class Address
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort AddressId { get; set; }
 
     public string Address1 { get; set; } = null!;
@@ -15,7 +15,7 @@ public partial class Address
 
     public string District { get; set; } = null!;
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort CityId { get; set; }
 
     public string? PostalCode { get; set; }

@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class StaffList
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte Id { get; set; }
 
     public string? Name { get; set; }
@@ -20,6 +20,6 @@ public partial class StaffList
 
     public string Country { get; set; } = null!;
 
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public byte Sid { get; set; }
 }

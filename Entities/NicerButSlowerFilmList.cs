@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class NicerButSlowerFilmList
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort Fid { get; set; }
 
     public string Title { get; set; } = null!;

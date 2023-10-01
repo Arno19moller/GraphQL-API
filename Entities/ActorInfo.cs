@@ -5,7 +5,7 @@ namespace GraphQL.Entities;
 
 public partial class ActorInfo
 {
-    [GraphQLType(typeof(IntType))]
+    [GraphQLType(typeof(IdType))]
     public ushort ActorId { get; set; }
 
     public string FirstName { get; set; } = null!;

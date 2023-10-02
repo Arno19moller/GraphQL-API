@@ -13,7 +13,7 @@ namespace GraphQL_API.Services.Interfaces
             _dbContext = dbContext;
         }
 
-        public List<CustomerType> GetCustomers(int numCustomers, CancellationToken cancellationToken = default)
+        public List<Customer> GetCustomers(int numCustomers, CancellationToken cancellationToken = default)
         {
             return _dbContext.Customers
                 .Include(x => x.Address)

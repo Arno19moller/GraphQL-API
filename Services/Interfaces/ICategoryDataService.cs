@@ -4,6 +4,6 @@ namespace GraphQL_API.Services.Interfaces
 {
     public interface ICategoryDataService
     {
-        List<CategoryType> GetCategories(int numCategories, CancellationToken cancellationToken = default);
+        List<Category> GetCategories(int numCategories, CancellationToken cancellationToken = default);
     }
 }

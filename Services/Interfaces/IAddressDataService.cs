@@ -4,6 +4,6 @@ namespace GraphQL_API.Services.Interfaces
 {
     public interface IAddressDataService
     {
-        List<AddressType> GetAddresses(int numAddresses, CancellationToken cancellationToken = default);
+        List<Address> GetAddresses(int numAddresses, CancellationToken cancellationToken = default);
     }
 }

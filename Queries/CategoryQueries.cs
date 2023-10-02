@@ -7,7 +7,7 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class CategoryQueries
     {
-        public async Task<List<CategoryType>> GetCategoryData(int numCategories, [Service] ICategoryDataService categoryService, CancellationToken cancellationToken)
+        public async Task<List<Category>> GetCategoryData(int numCategories, [Service] ICategoryDataService categoryService, CancellationToken cancellationToken)
         {
             return categoryService.GetCategories(numCategories, cancellationToken);
         }

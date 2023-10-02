@@ -13,7 +13,7 @@ namespace GraphQL_API.Services.Interfaces
             _dbContext = dbContext;
         }
 
-        public List<CategoryType> GetCategories(int numCategories, CancellationToken cancellationToken = default)
+        public List<Category> GetCategories(int numCategories, CancellationToken cancellationToken = default)
         {
             return _dbContext.Categories.Include(x => x.FilmCategories)
                              .AsNoTracking()

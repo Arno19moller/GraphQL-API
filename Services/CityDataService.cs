@@ -13,7 +13,7 @@ namespace GraphQL_API.Services.Interfaces
             _dbContext = dbContext;
         }
 
-        public List<CityType> GetCities(int numCities, CancellationToken cancellationToken = default)
+        public List<City> GetCities(int numCities, CancellationToken cancellationToken = default)
         {
             return _dbContext.Cities.Include(x => x.Addresses)
                 .Include(x => x.Country)

@@ -13,7 +13,7 @@ namespace GraphQL_API.Services.Interfaces
             _dbContext = dbContext;
         }
 
-        public List<CountryType> GetCountries(int numCountries, CancellationToken cancellationToken = default)
+        public List<Country> GetCountries(int numCountries, CancellationToken cancellationToken = default)
         {
             return _dbContext.Countries.Include(x => x.Cities)
                  .AsNoTracking()

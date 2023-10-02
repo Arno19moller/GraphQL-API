@@ -1,5 +1,5 @@
-﻿using GraphQL.Data;
-using GraphQL.Entities;
+﻿using GraphQL_API.Context;
+using GraphQL_API.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Services.Interfaces
@@ -13,7 +13,7 @@ namespace GraphQL_API.Services.Interfaces
             _dbContext = dbContext;
         }
 
-        public List<Address> GetAddresses(int numAddresses, CancellationToken cancellationToken = default)
+        public List<AddressType> GetAddresses(int numAddresses, CancellationToken cancellationToken = default)
         {
             return _dbContext.Addresses
                              .Include(x => x.City)

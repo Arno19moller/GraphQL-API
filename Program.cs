@@ -1,5 +1,5 @@
-using GraphQL.Data;
 using GraphQL.Entities;
+using GraphQL_API.Context;
 using GraphQL_API.Queries;
 using GraphQL_API.Services;
 using GraphQL_API.Services.Interfaces;

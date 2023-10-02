@@ -1,5 +1,5 @@
-﻿using GraphQL.Data;
-using GraphQL.Entities;
+﻿using GraphQL_API.Context;
+using GraphQL_API.Data;
 using GraphQL_API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

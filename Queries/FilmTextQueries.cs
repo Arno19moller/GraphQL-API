@@ -1,4 +1,4 @@
-﻿using GraphQL.Entities;
+﻿using GraphQL_API.Data;
 using GraphQL_API.Services.Interfaces;
 using HotChocolate;
 

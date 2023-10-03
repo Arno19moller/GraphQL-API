@@ -1,4 +1,5 @@
 using GraphQL_API.Context;
+using GraphQL_API.Data;
 using GraphQL_API.Queries;
 using GraphQL_API.Services;
 using GraphQL_API.Services.Interfaces;
@@ -60,7 +61,30 @@ internal class Program
 	{
 		serviceCollection.AddGraphQLServer()
 						 .AddQueryType(d => d.Name("Query"))
-						 .AddTypeExtension<ActorQueries>()
+						 .AddType<ActorInfoType>()
+						 .AddType<ActorType>()
+						 .AddType<AddressType>()
+						 .AddType<CategoryType>()
+						 .AddType<CityType>()
+						 .AddType<CountryType>()
+						 .AddType<CustomerListType>()
+						 .AddType<CustomerType>()
+						 .AddType<FilmActorType>()
+						 .AddType<FilmCategoryType>()
+						 .AddType<FilmListType>()
+						 .AddType<FilmTextType>()
+						 .AddType<FilmType>()
+						 .AddType<InventoryType>()
+						 .AddType<LanguageType>()
+						 .AddType<NicerButSlowerFilmListType>()
+						 .AddType<PaymentType>()
+						 .AddType<RentalType>()
+						 .AddType<SalesByFilmCategoryType>()
+						 .AddType<SalesByStoreType>()
+						 .AddType<StaffListType>()
+						 .AddType<StaffType>()
+						 .AddType<StoreType>()
+                         .AddTypeExtension<ActorQueries>()
 						 .AddTypeExtension<AddressQueries>()
 						 .AddTypeExtension<CategoryQueries>()
 						 .AddTypeExtension<CityQueries>()

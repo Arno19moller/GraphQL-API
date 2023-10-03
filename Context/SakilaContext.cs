@@ -89,7 +89,7 @@ public partial class SakilaContext : DbContext
                 .HasColumnName("last_update");
         });
 
-        modelBuilder.Entity<ActorInfoType>(entity =>
+        modelBuilder.Entity<ActorInfo>(entity =>
         {
             entity
                 .HasNoKey()
@@ -107,7 +107,7 @@ public partial class SakilaContext : DbContext
                 .HasColumnName("last_name");
         });
 
-        modelBuilder.Entity<AddressType>(entity =>
+        modelBuilder.Entity<AddressEntity>(entity =>
         {
             entity.HasKey(e => e.AddressId).HasName("PRIMARY");
 
@@ -118,7 +118,7 @@ public partial class SakilaContext : DbContext
             entity.HasIndex(e => e.Location, "idx_location");
 
             entity.Property(e => e.AddressId).HasColumnName("address_id");
-            entity.Property(e => e.Address1)
+            entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .HasColumnName("address");
             entity.Property(e => e.Address2)
@@ -141,13 +141,13 @@ public partial class SakilaContext : DbContext
                 .HasMaxLength(10)
                 .HasColumnName("postal_code");
 
-            entity.HasOne(d => d.City).WithMany(p => p.Addresses)
-                .HasForeignKey(d => d.CityId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_address_city");
+            //entity.HasOne(d => d.City).WithMany(p => p.Addresses)
+            //    .HasForeignKey(d => d.CityId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_address_city");
         });
 
-        modelBuilder.Entity<CategoryType>(entity =>
+        modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.CategoryId).HasName("PRIMARY");
 
@@ -166,7 +166,7 @@ public partial class SakilaContext : DbContext
                 .HasColumnName("name");
         });
 
-        modelBuilder.Entity<CityType>(entity =>
+        modelBuilder.Entity<CityEntity>(entity =>
         {
             entity.HasKey(e => e.CityId).HasName("PRIMARY");
 
@@ -175,7 +175,7 @@ public partial class SakilaContext : DbContext
             entity.HasIndex(e => e.CountryId, "idx_fk_country_id");
 
             entity.Property(e => e.CityId).HasColumnName("city_id");
-            entity.Property(e => e.City1)
+            entity.Property(e => e.City)
                 .HasMaxLength(50)
                 .HasColumnName("city");
             entity.Property(e => e.CountryId).HasColumnName("country_id");
@@ -185,13 +185,13 @@ public partial class SakilaContext : DbContext
                 .HasColumnType("timestamp")
                 .HasColumnName("last_update");
 
-            entity.HasOne(d => d.Country).WithMany(p => p.Cities)
-                .HasForeignKey(d => d.CountryId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_city_country");
+            //entity.HasOne(d => d.Country).WithMany(p => p.Cities)
+            //    .HasForeignKey(d => d.CountryId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_city_country");
         });
 
-        modelBuilder.Entity<CountryType>(entity =>
+        modelBuilder.Entity<Country>(entity =>
         {
             entity.HasKey(e => e.CountryId).HasName("PRIMARY");
 
@@ -208,7 +208,7 @@ public partial class SakilaContext : DbContext
                 .HasColumnName("last_update");
         });
 
-        modelBuilder.Entity<CustomerType>(entity =>
+        modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasKey(e => e.CustomerId).HasName("PRIMARY");
 
@@ -245,15 +245,15 @@ public partial class SakilaContext : DbContext
                 .HasColumnName("last_update");
             entity.Property(e => e.StoreId).HasColumnName("store_id");
 
-            entity.HasOne(d => d.Address).WithMany(p => p.Customers)
-                .HasForeignKey(d => d.AddressId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_customer_address");
+            //entity.HasOne(d => d.Address).WithMany(p => p.Customers)
+            //    .HasForeignKey(d => d.AddressId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_customer_address");
 
-            entity.HasOne(d => d.Store).WithMany(p => p.Customers)
-                .HasForeignKey(d => d.StoreId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_customer_store");
+            //entity.HasOne(d => d.Store).WithMany(p => p.Customers)
+            //    .HasForeignKey(d => d.StoreId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_customer_store");
         });
 
         modelBuilder.Entity<CustomerList>(entity =>
@@ -391,10 +391,10 @@ public partial class SakilaContext : DbContext
                 .HasColumnType("timestamp")
                 .HasColumnName("last_update");
 
-            entity.HasOne(d => d.Category).WithMany(p => p.FilmCategories)
-                .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_film_category_category");
+            //entity.HasOne(d => d.Category).WithMany(p => p.FilmCategories)
+            //    .HasForeignKey(d => d.CategoryId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_film_category_category");
 
             entity.HasOne(d => d.Film).WithMany(p => p.FilmCategories)
                 .HasForeignKey(d => d.FilmId)
@@ -557,10 +557,10 @@ public partial class SakilaContext : DbContext
             entity.Property(e => e.RentalId).HasColumnName("rental_id");
             entity.Property(e => e.StaffId).HasColumnName("staff_id");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_payment_customer");
+            //entity.HasOne(d => d.Customer).WithMany(p => p.Payments)
+            //    .HasForeignKey(d => d.CustomerId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_payment_customer");
 
             entity.HasOne(d => d.Rental).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.RentalId)
@@ -605,10 +605,10 @@ public partial class SakilaContext : DbContext
                 .HasColumnName("return_date");
             entity.Property(e => e.StaffId).HasColumnName("staff_id");
 
-            entity.HasOne(d => d.Customer).WithMany(p => p.Rentals)
-                .HasForeignKey(d => d.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_rental_customer");
+            //entity.HasOne(d => d.Customer).WithMany(p => p.Rentals)
+            //    .HasForeignKey(d => d.CustomerId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_rental_customer");
 
             entity.HasOne(d => d.Inventory).WithMany(p => p.Rentals)
                 .HasForeignKey(d => d.InventoryId)
@@ -695,10 +695,10 @@ public partial class SakilaContext : DbContext
                 .HasMaxLength(16)
                 .HasColumnName("username");
 
-            entity.HasOne(d => d.Address).WithMany(p => p.Staff)
-                .HasForeignKey(d => d.AddressId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_staff_address");
+            //entity.HasOne(d => d.Address).WithMany(p => p.Staff)
+            //    .HasForeignKey(d => d.AddressId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_staff_address");
 
             entity.HasOne(d => d.Store).WithMany(p => p.Staff)
                 .HasForeignKey(d => d.StoreId)
@@ -755,10 +755,10 @@ public partial class SakilaContext : DbContext
                 .HasColumnName("last_update");
             entity.Property(e => e.ManagerStaffId).HasColumnName("manager_staff_id");
 
-            entity.HasOne(d => d.Address).WithMany(p => p.Stores)
-                .HasForeignKey(d => d.AddressId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("fk_store_address");
+            //entity.HasOne(d => d.Address).WithMany(p => p.Stores)
+            //    .HasForeignKey(d => d.AddressId)
+            //    .OnDelete(DeleteBehavior.Restrict)
+            //    .HasConstraintName("fk_store_address");
 
             entity.HasOne(d => d.ManagerStaff).WithOne(p => p.StoreNavigation)
                 .HasForeignKey<Store>(d => d.ManagerStaffId)

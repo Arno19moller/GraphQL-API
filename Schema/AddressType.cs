@@ -38,6 +38,15 @@ public class AddressType : ObjectType<AddressEntity>
         descriptor.Field<AddressType>(a => a.ResolveCity(default, default, default))
             .Name("City")
             .Type<CityType>();
+
+        descriptor.Field<AddressType>(a => a.ResolveStores(default, default, default))
+            .Name("Stores")
+            .Type<ListType<StoreType>>();
+
+        descriptor.Field<AddressType>(a => a.ResolveStaff(default, default, default))
+            .Name("Staff")
+            .Type<ListType<NonNullType<StaffType>>>();
+
     }
 
     public async Task<CityEntity> ResolveCity(IResolverContext context, [Parent] AddressEntity adrress, [Service] SakilaContext dbContext)
@@ -48,5 +57,29 @@ public class AddressType : ObjectType<AddressEntity>
                 return await dbContext.Cities.Where(x => ids.Contains(x.CityId)).ToDictionaryAsync(x => x.CityId, x => x, ct);
             })
         .LoadAsync(adrress.CityId);
+    }
+
+    public async Task<IEnumerable<Store>> ResolveStores(IResolverContext context, [Parent] AddressEntity address, [Service] SakilaContext dbContext)
+    {
+        var stores = await context.BatchDataLoader<ushort, IEnumerable<Store>>(
+            async (ids, ct) =>
+            {
+                var storesByAddressId = await dbContext.Stores.Where(x => ids.Contains(x.AddressId)).ToListAsync(ct);
+                return ids.ToDictionary(id => id, id => storesByAddressId.Where(store => store.AddressId == id).AsEnumerable());
+            })
+        .LoadAsync(address.AddressId);
+
+        return stores;
+    }
+
+   public async Task<IEnumerable<Staff>> ResolveStaff(IResolverContext context, [Parent] AddressEntity address, [Service] SakilaContext dbContext)
+    {
+        return await context.BatchDataLoader<ushort, IEnumerable<Staff>>(
+            async (ids, ct) =>
+            {
+                var staffByAddressId = await dbContext.Staff.Where(x => ids.Contains(x.AddressId)).ToListAsync(ct);
+                return ids.ToDictionary(id => id, id => staffByAddressId.Where(staff => staff.AddressId == id).AsEnumerable());
+            })
+        .LoadAsync(address.AddressId);
     }
 }

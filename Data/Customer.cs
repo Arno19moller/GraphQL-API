@@ -28,9 +28,9 @@ public class Customer
 
     public virtual AddressType Address { get; set; } = null!;
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    public virtual ICollection<PaymentType> Payments { get; set; } = new List<PaymentType>();
 
-    public virtual ICollection<Rental> Rentals { get; set; } = new List<Rental>();
+    public virtual ICollection<RentalType> Rentals { get; set; } = new List<RentalType>();
 
-    public virtual Store Store { get; set; } = null!;
+    public virtual StoreType Store { get; set; } = null!;
 }

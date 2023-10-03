@@ -5,23 +5,29 @@ public class NicerButSlowerFilmListType : ObjectType<NicerButSlowerFilmList>
     protected override void Configure(IObjectTypeDescriptor<NicerButSlowerFilmList> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.Fid)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.Title)
+           .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.Description)
+           .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.Category)
+           .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.Price)
+           .Type<NonNullType<FloatType>>();
+
+        descriptor.Field(a => a.Length)
+           .Type<NonNullType<IntType>>();
+
+        descriptor.Field(a => a.Rating)
+           .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.Actors)
+           .Type<NonNullType<StringType>>();
     }
-    [GraphQLType(typeof(IdType))]
-    public ushort Fid { get; set; }
-
-    public string Title { get; set; } = null!;
-
-    public string? Description { get; set; }
-
-    public string? Category { get; set; }
-
-    [GraphQLType(typeof(FloatType))]
-    public decimal Price { get; set; }
-
-    [GraphQLType(typeof(IntType))]
-    public ushort? Length { get; set; }
-
-    public string? Rating { get; set; }
-
-    public string? Actors { get; set; }
 }

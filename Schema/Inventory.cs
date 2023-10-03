@@ -1,26 +1,52 @@
-﻿namespace GraphQL_API.Data;
+﻿using GraphQL_API.Context;
+using HotChocolate.Resolvers;
+using Microsoft.EntityFrameworkCore;
+
+namespace GraphQL_API.Data;
 
 public class InventoryType : ObjectType<Inventory>
 {
     protected override void Configure(IObjectTypeDescriptor<Inventory> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.InventoryId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.FilmId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.StoreId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.LastUpdate)
+            .Type<NonNullType<DateTimeType>>();
+
+        descriptor.Field<InventoryType>(a => a.ResolveFilm(default, default, default))
+             .Name("Film")
+             .Type<FilmType>();
+
+        descriptor.Field<InventoryType>(a => a.ResolveStore(default, default, default))
+             .Name("Store")
+             .Type<StoreType>();
     }
-    [GraphQLType(typeof(IdType))]
-    public uint InventoryId { get; set; }
+    public async Task<Film> ResolveFilm(IResolverContext context, [Parent] Inventory inventory, [Service] SakilaContext dbContext)
+    {
+        return await context.BatchDataLoader<ushort, Film>(
+            async (ids, ct) =>
+            {
+                return await dbContext.Films.Where(x => ids.Contains(x.FilmId)).ToDictionaryAsync(x => x.FilmId, x => x, ct);
+            })
+        .LoadAsync(inventory.FilmId);
+    }
 
-    [GraphQLType(typeof(IdType))]
-    public ushort FilmId { get; set; }
-
-    [GraphQLType(typeof(IdType))]
-    public byte StoreId { get; set; }
-
-    [GraphQLType(typeof(DateTimeType))]
-    public DateTime LastUpdate { get; set; }
-
-    public virtual Film Film { get; set; } = null!;
-
-    public virtual ICollection<Rental> Rentals { get; set; } = new List<Rental>();
-
-    public virtual Store Store { get; set; } = null!;
+    public async Task<Store> ResolveStore(IResolverContext context, [Parent] Inventory inventory, [Service] SakilaContext dbContext)
+    {
+        return await context.BatchDataLoader<byte, Store>(
+            async (ids, ct) =>
+            {
+                return await dbContext.Stores.Where(x => ids.Contains(x.StoreId)).ToDictionaryAsync(x => x.StoreId, x => x, ct);
+            })
+        .LoadAsync(inventory.StoreId);
+    }
 }

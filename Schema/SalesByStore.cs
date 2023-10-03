@@ -5,11 +5,14 @@ public class SalesByStoreType : ObjectType<SalesByStore>
     protected override void Configure(IObjectTypeDescriptor<SalesByStore> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.Store)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.Manager)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.TotalSales)
+            .Type<NonNullType<FloatType>>();
     }
-    public string? Store { get; set; }
-
-    public string? Manager { get; set; }
-
-    [GraphQLType(typeof(FloatType))]
-    public decimal? TotalSales { get; set; }
 }

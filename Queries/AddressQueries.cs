@@ -7,7 +7,7 @@ namespace GraphQL_API.Queries
     [ExtendObjectType(Name = "Query")]
 	public class AddressQueries
 	{
-        public async Task<List<Address>> GetAddressData(int numAdresses, [Service] IAddressDataService addressService, CancellationToken cancellationToken)
+        public async Task<List<AddressEntity>> GetAddressData(int numAdresses, [Service] IAddressDataService addressService, CancellationToken cancellationToken)
         {
             return addressService.GetAddresses(numAdresses, cancellationToken);
         }

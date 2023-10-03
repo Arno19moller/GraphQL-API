@@ -20,11 +20,11 @@ public partial class SakilaContext : DbContext
 
     public virtual DbSet<ActorInfo> ActorInfos { get; set; }
 
-    public virtual DbSet<Address> Addresses { get; set; }
+    public virtual DbSet<AddressEntity> Addresses { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
 
-    public virtual DbSet<City> Cities { get; set; }
+    public virtual DbSet<CityEntity> Cities { get; set; }
 
     public virtual DbSet<Country> Countries { get; set; }
 

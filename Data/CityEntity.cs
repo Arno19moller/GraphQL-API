@@ -1,11 +1,11 @@
 ﻿namespace GraphQL_API.Data;
 
-public class City
+public class CityEntity
 {
     [GraphQLType(typeof(IdType))]
     public ushort CityId { get; set; }
 
-    public string City1 { get; set; } = null!;
+    public string City { get; set; } = null!;
 
     [GraphQLType(typeof(IdType))]
     public ushort CountryId { get; set; }

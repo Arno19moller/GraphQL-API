@@ -1,23 +1,39 @@
-﻿namespace GraphQL_API.Data;
+﻿using GraphQL_API.Context;
+using HotChocolate.Resolvers;
+using Microsoft.EntityFrameworkCore;
 
-public class CityType : ObjectType<City>
+namespace GraphQL_API.Data;
+
+public class CityType : ObjectType<CityEntity>
 {
-    protected override void Configure(IObjectTypeDescriptor<City> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<CityEntity> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.CityId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.City)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.CountryId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.LastUpdate)
+            .Type<NonNullType<DateTimeType>>();
+
+        descriptor.Field<CityType>(a => a.ResolveCountry(default, default, default))
+            .Name("Country")
+            .Type<CountryType>();
     }
-    [GraphQLType(typeof(IdType))]
-    public ushort CityId { get; set; }
 
-    public string City1 { get; set; } = null!;
-
-    [GraphQLType(typeof(IdType))]
-    public ushort CountryId { get; set; }
-
-    [GraphQLType(typeof(DateTimeType))]
-    public DateTime LastUpdate { get; set; }
-
-    public virtual ICollection<AddressType> Addresses { get; set; } = new List<AddressType>();
-
-    public virtual CountryType Country { get; set; } = null!;
+    public async Task<Country> ResolveCountry(IResolverContext context, [Parent] CityEntity staff, [Service] SakilaContext dbContext)
+    {
+        return await context.BatchDataLoader<ushort, Country>(
+            async (ids, ct) =>
+            {
+                return await dbContext.Countries.Where(x => ids.Contains(x.CountryId)).ToDictionaryAsync(x => x.CountryId, x => x, ct);
+            })
+        .LoadAsync(staff.CountryId);
+    }
 }

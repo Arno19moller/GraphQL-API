@@ -5,17 +5,20 @@ public class ActorType : ObjectType<Actor>
     protected override void Configure(IObjectTypeDescriptor<Actor> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.ActorId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.FirstName)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.LastName)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.LastUpdate)
+            .Type<NonNullType<DateTimeType>>();
+
+        descriptor.Field(a => a.ActorId)
+            .Type<NonNullType<IdType>>();
     }
-    [GraphQLType(typeof(IdType))]
-    public ushort ActorId { get; set; }
-
-    public string FirstName { get; set; } = null!;
-
-    public string LastName { get; set; } = null!;
-
-    [GraphQLType(typeof(DateTimeType))]
-    public DateTime LastUpdate { get; set; }
-
-    //[GraphQLIgnore]
-    public virtual ICollection<FilmActor>? FilmActors { get; set; } = new List<FilmActor>();
 }

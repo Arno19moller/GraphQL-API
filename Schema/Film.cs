@@ -1,58 +1,80 @@
-﻿namespace GraphQL_API.Data;
+﻿using GraphQL_API.Context;
+using HotChocolate.Resolvers;
+using Microsoft.EntityFrameworkCore;
+
+namespace GraphQL_API.Data;
 
 public class FilmType : ObjectType<Film>
 {
     protected override void Configure(IObjectTypeDescriptor<Film> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.FilmId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.Title)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.Description)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.ReleaseYear)
+            .Type<NonNullType<IntType>>();
+
+        descriptor.Field(a => a.LanguageId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.OriginalLanguageId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.RentalDuration)
+            .Type<NonNullType<IntType>>();
+
+        descriptor.Field(a => a.RentalRate)
+            .Type<NonNullType<FloatType>>();
+
+        descriptor.Field(a => a.Length)
+            .Type<NonNullType<IntType>>();
+
+        descriptor.Field(a => a.ReplacementCost)
+            .Type<NonNullType<FloatType>>();
+
+        descriptor.Field(a => a.Rating)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.SpecialFeatures)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.LastUpdate)
+            .Type<NonNullType<DateTimeType>>();
+
+        descriptor.Field<FilmType>(a => a.ResolveLanguage(default, default, default))
+            .Name("Language")
+            .Type<LanguageType>();
+
+        descriptor.Field<FilmType>(a => a.ResolveOriginalLanguage(default, default, default))
+            .Name("OriginalLanguage")
+            .Type<LanguageType>();
     }
-    [GraphQLType(typeof(IdType))]
-    public ushort FilmId { get; set; }
 
-    public string Title { get; set; } = null!;
+    public async Task<Language> ResolveLanguage(IResolverContext context, [Parent] Film film, [Service] SakilaContext dbContext)
+    {
+        return await context.BatchDataLoader<byte, Language>(
+            async (ids, ct) =>
+            {
+                return await dbContext.Languages.Where(x => ids.Contains(x.LanguageId)).ToDictionaryAsync(x => x.LanguageId, x => x, ct);
+            })
+        .LoadAsync(film.LanguageId);
+    }
 
-    public string? Description { get; set; }
-
-    [GraphQLType(typeof(IntType))]
-    public int? ReleaseYear { get; set; }
-
-    [GraphQLType(typeof(IdType))]
-    public byte LanguageId { get; set; }
-
-    [GraphQLType(typeof(IdType))]
-    public byte? OriginalLanguageId { get; set; }
-
-    [GraphQLType(typeof(IntType))]
-    public byte RentalDuration { get; set; }
-
-    [GraphQLType(typeof(FloatType))]
-    public decimal RentalRate { get; set; }
-
-    [GraphQLType(typeof(IntType))]
-    public ushort? Length { get; set; }
-
-    [GraphQLType(typeof(FloatType))]
-    public decimal ReplacementCost { get; set; }
-
-    public string? Rating { get; set; }
-
-    public string? SpecialFeatures { get; set; }
-
-    [GraphQLType(typeof(DateTimeType))]
-    public DateTime LastUpdate { get; set; }
-
-
-    public virtual ICollection<FilmActor> FilmActors { get; set; } = new List<FilmActor>();
-
-
-    public virtual ICollection<FilmCategory> FilmCategories { get; set; } = new List<FilmCategory>();
-
-
-    public virtual ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
-
-
-    public virtual Language Language { get; set; } = null!;
-
-
-    public virtual Language? OriginalLanguage { get; set; }
+    public async Task<Language?> ResolveOriginalLanguage(IResolverContext context, [Parent] Film film, [Service] SakilaContext dbContext)
+    {
+        return (Language?)await context.BatchDataLoader<byte, Language>(
+            async (ids, ct) =>
+            {
+                return await dbContext.Languages.Where(x => ids.Contains(x.LanguageId)).ToDictionaryAsync(x => x.LanguageId, x => x, ct);
+            })
+        .LoadAsync(film.OriginalLanguageId);
+    }
 }

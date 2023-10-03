@@ -2,12 +2,12 @@
 
 namespace GraphQL_API.Data;
 
-public class Address
+public class AddressEntity
 {
     [GraphQLType(typeof(IdType))]
     public ushort AddressId { get; set; }
 
-    public string Address1 { get; set; } = null!;
+    public string Address { get; set; } = null!;
 
     public string? Address2 { get; set; }
 

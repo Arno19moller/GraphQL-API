@@ -1,17 +1,21 @@
 ﻿namespace GraphQL_API.Data;
 
-public class ActorInfoType : ObjectType<Actor>
+public class ActorInfoType : ObjectType<ActorInfo>
 {
-    protected override void Configure(IObjectTypeDescriptor<Actor> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<ActorInfo> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.ActorId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.FirstName)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.LastName)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.FilmInfo)
+            .Type<StringType>();
     }
-    [GraphQLType(typeof(IdType))]
-    public ushort ActorId { get; set; }
-
-    public string FirstName { get; set; } = null!;
-
-    public string LastName { get; set; } = null!;
-
-    public string? FilmInfo { get; set; }
 }

@@ -30,7 +30,7 @@ public class StoreType: ObjectType<Store>
                  .Type<ListType<StaffType>>();
     }
 
-    public async Task<IReadOnlyList<Address>> ResolveAddress([Parent] Store store, [Service] SakilaContext sakilaContext)
+    public async Task<IReadOnlyList<AddressEntity>> ResolveAddress([Parent] Store store, [Service] SakilaContext sakilaContext)
     {
         return await sakilaContext.Addresses
             .Where(x => x.AddressId == store.AddressId)

@@ -1,40 +1,52 @@
-﻿using MySql.Data.Types;
+﻿using GraphQL_API.Context;
+using HotChocolate.Resolvers;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.Types;
 
 namespace GraphQL_API.Data;
 
-public class AddressType : ObjectType<Address>
+public class AddressType : ObjectType<AddressEntity>
 {
-    protected override void Configure(IObjectTypeDescriptor<Address> descriptor)
+    protected override void Configure(IObjectTypeDescriptor<AddressEntity> descriptor)
     {
         base.Configure(descriptor);
+
+        descriptor.Field(a => a.AddressId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.Address)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.Address2)
+            .Type<StringType>();
+
+        descriptor.Field(a => a.District)
+            .Type<NonNullType<StringType>>();
+
+        descriptor.Field(a => a.CityId)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.PostalCode)
+            .Type<StringType>();
+
+        descriptor.Field(a => a.Phone)
+            .Type<NonNullType<IdType>>();
+
+        descriptor.Field(a => a.LastUpdate)
+            .Type<NonNullType<DateTimeType>>();
+
+        descriptor.Field<AddressType>(a => a.ResolveCity(default, default, default))
+            .Name("City")
+            .Type<CityType>();
     }
-    [GraphQLType(typeof(IdType))]
-    public ushort AddressId { get; set; }
 
-    public string Address1 { get; set; } = null!;
-
-    public string? Address2 { get; set; }
-
-    public string District { get; set; } = null!;
-
-    [GraphQLType(typeof(IdType))]
-    public ushort CityId { get; set; }
-
-    public string? PostalCode { get; set; }
-
-    public string Phone { get; set; } = null!;
-
-    [GraphQLIgnore]
-    public MySqlGeometry Location { get; set; }
-
-    [GraphQLType(typeof(DateTimeType))]
-    public DateTime LastUpdate { get; set; }
-
-    public virtual CityType City { get; set; } = null!;
-
-    public virtual ICollection<CustomerType> Customers { get; set; } = new List<CustomerType>();
-
-    public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
-
-    public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
+    public async Task<CityEntity> ResolveCity(IResolverContext context, [Parent] AddressEntity adrress, [Service] SakilaContext dbContext)
+    {
+        return await context.BatchDataLoader<ushort, CityEntity>(
+            async (ids, ct) =>
+            {
+                return await dbContext.Cities.Where(x => ids.Contains(x.CityId)).ToDictionaryAsync(x => x.CityId, x => x, ct);
+            })
+        .LoadAsync(adrress.CityId);
+    }
 }

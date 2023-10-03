@@ -59,9 +59,9 @@ public class StaffType : ObjectType<Staff>
              .Type<StoreType>();
     }
 
-    public async Task<Address> ResolveAddress(IResolverContext context, [Parent] Staff staff, [Service] SakilaContext dbContext)
+    public async Task<AddressEntity> ResolveAddress(IResolverContext context, [Parent] Staff staff, [Service] SakilaContext dbContext)
     {
-        return await context.BatchDataLoader<ushort, Address>(
+        return await context.BatchDataLoader<ushort, AddressEntity>(
             async (ids, ct) =>
             {
                 return await dbContext.Addresses.Where(x => ids.Contains(x.AddressId)).ToDictionaryAsync(x => x.AddressId, x => x, ct);

@@ -6,6 +6,12 @@ using GraphQL_API.Services.Interfaces;
 using HotChocolate.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using HotChocolate.Validation;
+//using GraphQL_API.Validation;
+using HotChocolate.Execution.Configuration;
+using HotChocolate.Validation;
+using GraphQL_API.Validation;
+using Microsoft.Extensions.DependencyInjection;
 
 internal class Program
 {
@@ -99,7 +105,8 @@ internal class Program
 						 .AddTypeExtension<PaymentQueries>()
 						 .AddTypeExtension<RentalQueries>()
 						 .AddTypeExtension<StaffQueries>()
-						 .AddTypeExtension<StoreQueries>();
+						 .AddTypeExtension<StoreQueries>()
+						 .AddValidationRule<HybridValidation>();
 	}
 
 	private static void ConfigureApp(WebApplication app)

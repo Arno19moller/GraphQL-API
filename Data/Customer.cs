@@ -26,11 +26,11 @@ public class Customer
     [GraphQLType(typeof(DateTimeType))]
     public DateTime? LastUpdate { get; set; }
 
-    public virtual AddressType Address { get; set; } = null!;
+    public virtual AddressEntity Address { get; set; } = null!;
 
-    public virtual ICollection<PaymentType> Payments { get; set; } = new List<PaymentType>();
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual ICollection<RentalType> Rentals { get; set; } = new List<RentalType>();
+    public virtual ICollection<Rental> Rentals { get; set; } = new List<Rental>();
 
-    public virtual StoreType Store { get; set; } = null!;
+    public virtual Store Store { get; set; } = null!;
 }

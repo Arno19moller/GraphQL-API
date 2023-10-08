@@ -20,11 +20,11 @@ public class FilmActorType : ObjectType<FilmActor>
             .Type<NonNullType<DateTimeType>>();
 
         descriptor.Field<FilmActorType>(p => ResolveActor(default, default, default))
-            .Name("Actor")
+            .Name("actor")
             .Type<ActorType>();
 
         descriptor.Field<FilmActorType>(p => ResolveFilm(default, default, default))
-            .Name("Film")
+            .Name("film")
             .Type<FilmType>();
     }
 

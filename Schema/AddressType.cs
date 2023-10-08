@@ -45,8 +45,7 @@ public class AddressType : ObjectType<AddressEntity>
 
         descriptor.Field<AddressType>(a => a.ResolveStaff(default, default, default))
             .Name("Staff")
-            .Type<ListType<NonNullType<StaffType>>>();
-
+            .Type<ListType<StaffType>>();
     }
 
     public async Task<CityEntity> ResolveCity(IResolverContext context, [Parent] AddressEntity adrress, [Service] SakilaContext dbContext)

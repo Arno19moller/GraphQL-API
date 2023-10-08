@@ -26,7 +26,7 @@ public class FilmType : ObjectType<Film>
             .Type<NonNullType<IdType>>();
 
         descriptor.Field(a => a.OriginalLanguageId)
-            .Type<NonNullType<IdType>>();
+            .Type<IdType>();
 
         descriptor.Field(a => a.RentalDuration)
             .Type<NonNullType<IntType>>();

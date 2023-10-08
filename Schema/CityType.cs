@@ -34,7 +34,7 @@ public class CityType : ObjectType<CityEntity>
 
         descriptor.Field<CityType>(x => x.Addresses)
             .Name("Addresses")
-            .Type<ListType<AddressType>>() // Assuming AddressType represents your AddressEntity
+            .Type<ListType<AddressType>>()
             .Resolve(context => ResolveAddress(default, default, default));
     }
 

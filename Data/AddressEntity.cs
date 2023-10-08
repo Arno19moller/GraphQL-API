@@ -26,9 +26,9 @@ public class AddressEntity
     [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
-    public virtual CityType City { get; set; } = null!;
+    public virtual CityEntity City { get; set; } = null!;
 
-    public virtual ICollection<CustomerType> Customers { get; set; } = new List<CustomerType>();
+    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
 
     public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
 

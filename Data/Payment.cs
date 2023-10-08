@@ -23,7 +23,7 @@ public class Payment
     [GraphQLType(typeof(DateTimeType))]
     public DateTime? LastUpdate { get; set; }
 
-    public virtual CustomerType Customer { get; set; } = null!;
+    public virtual Customer Customer { get; set; } = null!;
 
     public virtual Rental? Rental { get; set; }
 

@@ -30,7 +30,7 @@ public class Staff
     [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
-    public virtual AddressType Address { get; set; } = null!;
+    public virtual AddressEntity Address { get; set; } = null!;
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 

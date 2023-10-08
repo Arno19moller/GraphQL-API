@@ -10,5 +10,5 @@ public class Country
     [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
-    public virtual ICollection<CityType> Cities { get; set; } = new List<CityType>();
+    public virtual ICollection<CityEntity> Cities { get; set; } = new List<CityEntity>();
 }

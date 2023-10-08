@@ -14,9 +14,9 @@ public class Store
     [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
-    public virtual AddressType Address { get; set; } = null!;
+    public virtual AddressEntity Address { get; set; } = null!;
 
-    public virtual ICollection<CustomerType> Customers { get; set; } = new List<CustomerType>();
+    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
 
     public virtual ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
 

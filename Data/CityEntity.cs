@@ -13,7 +13,7 @@ public class CityEntity
     [GraphQLType(typeof(DateTimeType))]
     public DateTime LastUpdate { get; set; }
 
-    public virtual ICollection<AddressType> Addresses { get; set; } = new List<AddressType>();
+    public virtual ICollection<AddressEntity> Addresses { get; set; } = new List<AddressEntity>();
 
-    public virtual CountryType Country { get; set; } = null!;
+    public virtual Country Country { get; set; } = null!;
 }

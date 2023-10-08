@@ -19,12 +19,12 @@ public class CountryType : ObjectType<Country>
         descriptor.Field(a => a.LastUpdate)
             .Type<NonNullType<DateTimeType>>();
 
-        descriptor.Field<CountryType>(a => a.ResolveCountries(default, default, default))
+        descriptor.Field<CountryType>(a => a.ResolveCities(default, default, default))
             .Name("Cities")
             .Type<ListType<CityType>>();
     }
 
-    public async Task<IEnumerable<CityEntity>> ResolveCountries(IResolverContext context, [Parent] Country country, [Service] SakilaContext dbContext)
+    public async Task<IEnumerable<CityEntity>> ResolveCities(IResolverContext context, [Parent] Country country, [Service] SakilaContext dbContext)
     {
         var stores = await context.BatchDataLoader<ushort, IEnumerable<CityEntity>>(
             async (ids, ct) =>

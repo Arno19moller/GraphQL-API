@@ -1,11 +1,17 @@
-using GraphQL.Data;
-using GraphQL.Entities;
+using GraphQL_API.Context;
+using GraphQL_API.Data;
 using GraphQL_API.Queries;
 using GraphQL_API.Services;
 using GraphQL_API.Services.Interfaces;
 using HotChocolate.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using HotChocolate.Validation;
+//using GraphQL_API.Validation;
+using HotChocolate.Execution.Configuration;
+using HotChocolate.Validation;
+using GraphQL_API.Validation;
+using Microsoft.Extensions.DependencyInjection;
 
 internal class Program
 {
@@ -61,7 +67,30 @@ internal class Program
 	{
 		serviceCollection.AddGraphQLServer()
 						 .AddQueryType(d => d.Name("Query"))
-						 .AddTypeExtension<ActorQueries>()
+						 .AddType<ActorInfoType>()
+						 .AddType<ActorType>()
+						 .AddType<AddressType>()
+						 .AddType<CategoryType>()
+						 .AddType<CityType>()
+						 .AddType<CountryType>()
+						 .AddType<CustomerListType>()
+						 .AddType<CustomerType>()
+						 .AddType<FilmActorType>()
+						 .AddType<FilmCategoryType>()
+						 .AddType<FilmListType>()
+						 .AddType<FilmTextType>()
+						 .AddType<FilmType>()
+						 .AddType<InventoryType>()
+						 .AddType<LanguageType>()
+						 .AddType<NicerButSlowerFilmListType>()
+						 .AddType<PaymentType>()
+						 .AddType<RentalType>()
+						 .AddType<SalesByFilmCategoryType>()
+						 .AddType<SalesByStoreType>()
+						 .AddType<StaffListType>()
+						 .AddType<StaffType>()
+						 .AddType<StoreType>()
+                         .AddTypeExtension<ActorQueries>()
 						 .AddTypeExtension<AddressQueries>()
 						 .AddTypeExtension<CategoryQueries>()
 						 .AddTypeExtension<CityQueries>()
@@ -76,7 +105,8 @@ internal class Program
 						 .AddTypeExtension<PaymentQueries>()
 						 .AddTypeExtension<RentalQueries>()
 						 .AddTypeExtension<StaffQueries>()
-						 .AddTypeExtension<StoreQueries>();
+						 .AddTypeExtension<StoreQueries>()
+						 .AddValidationRule<HybridValidation>();
 	}
 
 	private static void ConfigureApp(WebApplication app)

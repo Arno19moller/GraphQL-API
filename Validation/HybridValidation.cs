@@ -15,6 +15,12 @@ namespace GraphQL_API.Validation
 
 		public void Validate(IDocumentValidatorContext context, DocumentNode document)
 		{
+			if (IsQueryInBannedQueries(document))
+			{
+				AppendError(context, "Banned query cannot be executed", document);
+				return;
+			}
+
 			if (_definitionLimit > -1 && document.Definitions.Count > _definitionLimit)
 			{
 				AppendError(context, "Too many definitions included in query", document);
@@ -69,6 +75,11 @@ namespace GraphQL_API.Validation
 									.Build();
 
 			context.ReportError(error);
+		}
+
+		private bool IsQueryInBannedQueries(DocumentNode query)
+		{
+			return false;
 		}
 	}
 }

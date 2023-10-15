@@ -1,10 +1,5 @@
-﻿using GraphQL.Validation;
-using GraphQL_API.Data;
-using HotChocolate;
-using HotChocolate.Language;
-using HotChocolate.Types.Descriptors.Definitions;
+﻿using HotChocolate.Language;
 using HotChocolate.Validation;
-using System.Linq;
 
 namespace GraphQL_API.Validation
 {
@@ -20,15 +15,6 @@ namespace GraphQL_API.Validation
 
 		public void Validate(IDocumentValidatorContext context, DocumentNode document)
 		{
-			var doc = document; // query ActorData { actorData(numActors: 5) { actorId firstName lastName lastUpdate }}
-
-			var count = doc.Count;
-			var defCount = doc.Definitions.Count;
-			var def = doc.Definitions;
-			var kind = doc.Kind;
-			var fieldsCount = doc.FieldsCount;
-			var i = 0;
-
 			if (document.Definitions.Count > _definitionLimit)
 			{
 				AppendError(context, "Too many definitions included in query", document);
@@ -39,7 +25,6 @@ namespace GraphQL_API.Validation
 				if (definition is OperationDefinitionNode operation)
 				{
 					var selections = operation.SelectionSet.Selections;
-					var t = operation.SelectionSet;
 
 					if (selections.Count > _definitionSetLimit)
 					{

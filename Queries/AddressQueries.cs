@@ -9,7 +9,8 @@ namespace GraphQL_API.Queries
 	{
         public async Task<List<AddressEntity>> GetAddressData(int numAdresses, [Service] IAddressDataService addressService, CancellationToken cancellationToken)
         {
-            return addressService.GetAddresses(numAdresses, cancellationToken);
-        }
+            //return addressService.GetAddresses(numAdresses, cancellationToken);
+            return await addressService.GetAddressesAsync(numAdresses, cancellationToken);
+		}
     }
 }

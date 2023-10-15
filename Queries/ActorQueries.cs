@@ -11,7 +11,8 @@ namespace GraphQL_API.Queries
 		{
 			try
 			{
-				return actorService.GetActors(numActors, cancellationToken);
+				//return actorService.GetActors(numActors, cancellationToken);
+				return await actorService.GetActorsAsync(numActors, cancellationToken);
 			}
 			catch (Exception ex)
 			{

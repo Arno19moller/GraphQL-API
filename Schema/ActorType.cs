@@ -25,11 +25,6 @@ public class ActorType : ObjectType<Actor>
         descriptor.Field(a => a.ActorId)
             .Type<NonNullType<IdType>>();
 
-		//descriptor.Field<ActorType>(x => x.FilmActors)
-		//   .Name("FilmActors")
-		//   .Type<ListType<FilmActorType>>()
-		//   .Resolve(context => ResolveAddress(default, default, default));
-
 		descriptor.Field<ActorType>(a => a.ResolveFilmActor(default, default, default))
 			.Name("filmActors")
 			.Type<ListType<FilmActorType>>();

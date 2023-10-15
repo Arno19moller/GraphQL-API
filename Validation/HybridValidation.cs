@@ -8,14 +8,14 @@ namespace GraphQL_API.Validation
 		public bool IsCacheable => false;
 		public string Name => "HybridValidation";
 
-		private int _depthLimit = 1;
-		private int _definitionLimit = 1;
-		private int _definitionSetLimit = 1;
-		private int _definitionSetFieldLimit = 1;
+		private int _depthLimit = -1;
+		private int _definitionLimit = -1;
+		private int _definitionSetLimit = -1;
+		private int _definitionSetFieldLimit = -1;
 
 		public void Validate(IDocumentValidatorContext context, DocumentNode document)
 		{
-			if (document.Definitions.Count > _definitionLimit)
+			if (_definitionLimit > -1 && document.Definitions.Count > _definitionLimit)
 			{
 				AppendError(context, "Too many definitions included in query", document);
 			}
@@ -26,7 +26,7 @@ namespace GraphQL_API.Validation
 				{
 					var selections = operation.SelectionSet.Selections;
 
-					if (selections.Count > _definitionSetLimit)
+					if (_definitionSetLimit > -1 && selections.Count > _definitionSetLimit)
 					{
 						AppendError(context, "Too many definition sets included in query", definition);
 					}
@@ -41,13 +41,13 @@ namespace GraphQL_API.Validation
 			{
 				if (selection is FieldNode field)
 				{
-					if (depth > _depthLimit)
+					if (_depthLimit > -1 && depth > _depthLimit)
 					{
 						AppendError(context, "Query depth too large", selection);
 					}
 					else if (field.SelectionSet != null)
 					{
-						if (field.SelectionSet.Selections.Count > _definitionSetFieldLimit)
+						if (_definitionSetFieldLimit > -1 && field.SelectionSet.Selections.Count > _definitionSetFieldLimit)
 						{
 							AppendError(context, "Too many fields in definition sets included in query", field.SelectionSet);
 						}

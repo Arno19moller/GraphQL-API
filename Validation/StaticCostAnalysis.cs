@@ -3,7 +3,7 @@ using HotChocolate.Validation;
 
 namespace GraphQL_API.Validation
 {
-	public class HybridValidation : IDocumentValidatorRule
+	public class StaticCostAnalysis : IDocumentValidatorRule
 	{
 		public bool IsCacheable => false;
 		public string Name => "HybridValidation";
@@ -15,17 +15,22 @@ namespace GraphQL_API.Validation
 
 		public void Validate(IDocumentValidatorContext context, DocumentNode document)
 		{
-			if (IsQueryInBannedQueries(document))
-			{
-				AppendError(context, "Banned query cannot be executed", document);
-				return;
-			}
+			if (IsIntrospectionQuery(document.ToString())) return;
 
+			CheckDefinitionLimit(document, context);
+			CheckDefinitionSelections(document, context);
+		}
+
+		private void CheckDefinitionLimit(DocumentNode document, IDocumentValidatorContext context)
+		{
 			if (_definitionLimit > -1 && document.Definitions.Count > _definitionLimit)
 			{
 				AppendError(context, "Too many definitions included in query", document);
 			}
+		}
 
+		private void CheckDefinitionSelections(DocumentNode document, IDocumentValidatorContext context)
+		{
 			foreach (var definition in document.Definitions)
 			{
 				if (definition is OperationDefinitionNode operation)
@@ -77,9 +82,16 @@ namespace GraphQL_API.Validation
 			context.ReportError(error);
 		}
 
-		private bool IsQueryInBannedQueries(DocumentNode query)
+		private bool IsIntrospectionQuery(string query)
 		{
-			return false;
+			return query.Contains("__schema") ||
+				   query.Contains("__type") ||
+				   query.Contains("__typename") ||
+				   query.Contains("__typeKind") ||
+				   query.Contains("__field") ||
+				   query.Contains("__inputValue") ||
+				   query.Contains("__enumValue") ||
+				   query.Contains("__directive");
 		}
 	}
 }

@@ -108,14 +108,18 @@ internal class Program
 						 .AddTypeExtension<RentalQueries>()
 						 .AddTypeExtension<StaffQueries>()
 						 .AddTypeExtension<StoreQueries>()
-						 .AddValidationRule<HybridValidation>();
+						 .AddValidationRule<StaticCostAnalysis>();
 	}
 
 	private static void ConfigureMiddleware(WebApplication app, WebApplicationBuilder builder)
 	{
 		var timeoutString = builder.Configuration.GetValue<string>("Performance:Timeout");
 		var timeout = TimeSpan.Parse(timeoutString!);
-		app.UseMiddleware<PerformanceInterceptorMiddleware>(timeout);
+
+		var memoryLimitString = builder.Configuration.GetValue<string>("Performance:MemoryLimitMB");
+		var memoryLimitMB = int.Parse(memoryLimitString);
+
+		app.UseMiddleware<DynamicCostAnalysisMiddleware>(timeout, memoryLimitMB);
 	}
 
 	private static void ConfigureApp(WebApplication app)

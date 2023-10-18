@@ -30,5 +30,21 @@ namespace GraphQL_API.Services
 			}
 			
 		}
+
+		public async Task<List<Actor>> GetActorsAsync(int numActors, CancellationToken cancellationToken = default)
+		{
+			try
+			{
+				return await _dbContext.Actors
+							 //.Include(x => x.FilmActors)
+							 .AsNoTracking()
+							 .Take(numActors)
+							 .ToListAsync(cancellationToken);
+			}
+			catch (Exception e)
+			{
+				throw;
+			}
+		}
 	}
 }

@@ -24,5 +24,17 @@ namespace GraphQL_API.Services.Interfaces
                              .Take(numAddresses)
                              .ToList();
         }
-    }
+
+		public async Task<List<AddressEntity>> GetAddressesAsync(int numAddresses, CancellationToken cancellationToken = default)
+		{
+			return await _dbContext.Addresses
+							 //.Include(x => x.City)
+							 //.Include(x => x.Customers)
+							 //.Include(x => x.Staff)
+							 //.Include(x => x.Stores)
+							 .AsNoTracking()
+							 .Take(numAddresses)
+							 .ToListAsync(cancellationToken);
+		}
+	}
 }

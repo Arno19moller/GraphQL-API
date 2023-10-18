@@ -12,6 +12,7 @@ using HotChocolate.Execution.Configuration;
 using HotChocolate.Validation;
 using GraphQL_API.Validation;
 using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 
 internal class Program
 {
@@ -26,6 +27,7 @@ internal class Program
 
 		// Configure app
 		var app = builder.Build();
+		ConfigureMiddleware(app, builder);
 		ConfigureApp(app);
 	}
 
@@ -106,7 +108,18 @@ internal class Program
 						 .AddTypeExtension<RentalQueries>()
 						 .AddTypeExtension<StaffQueries>()
 						 .AddTypeExtension<StoreQueries>()
-						 .AddValidationRule<HybridValidation>();
+						 .AddValidationRule<StaticCostAnalysis>();
+	}
+
+	private static void ConfigureMiddleware(WebApplication app, WebApplicationBuilder builder)
+	{
+		var timeoutString = builder.Configuration.GetValue<string>("Performance:Timeout");
+		var timeout = TimeSpan.Parse(timeoutString!);
+
+		var memoryLimitString = builder.Configuration.GetValue<string>("Performance:MemoryLimitMB");
+		var memoryLimitMB = int.Parse(memoryLimitString);
+
+		app.UseMiddleware<DynamicCostAnalysisMiddleware>(timeout, memoryLimitMB);
 	}
 
 	private static void ConfigureApp(WebApplication app)

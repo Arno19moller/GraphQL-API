@@ -63,7 +63,7 @@ public partial class SakilaContext : DbContext
     public virtual DbSet<Store> Stores { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySQL("Name=DefaultConnection");
+        => optionsBuilder.UseMySQL("Server=localhost;Port=3306;Database=sakila;User=root;Password=root;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

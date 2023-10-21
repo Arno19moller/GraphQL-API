@@ -3,16 +3,10 @@ using GraphQL_API.Data;
 using GraphQL_API.Queries;
 using GraphQL_API.Services;
 using GraphQL_API.Services.Interfaces;
+using GraphQL_API.Validation;
 using HotChocolate.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using HotChocolate.Validation;
-//using GraphQL_API.Validation;
-using HotChocolate.Execution.Configuration;
-using HotChocolate.Validation;
-using GraphQL_API.Validation;
-using Microsoft.Extensions.DependencyInjection;
-using System.Configuration;
 
 internal class Program
 {
@@ -61,7 +55,7 @@ internal class Program
 		serviceCollection.AddScoped<IStaffDataService, StaffDataService>();
 		serviceCollection.AddScoped<IStoreDataService, StoreDataService>();
 
-		serviceCollection.AddDbContext<SakilaContext>(options => options.UseMySQL(builder.Configuration.GetValue<string>("DefaultConnection")), ServiceLifetime.Transient);
+		serviceCollection.AddDbContext<SakilaContext>(options => options.UseMySQL("Server=localhost;Port=3306;Database=sakila;User=root;Password=root;"), ServiceLifetime.Transient);
 		serviceCollection.AddHttpContextAccessor();
 	}
 
@@ -92,7 +86,7 @@ internal class Program
 						 .AddType<StaffListType>()
 						 .AddType<StaffType>()
 						 .AddType<StoreType>()
-                         .AddTypeExtension<ActorQueries>()
+						 .AddTypeExtension<ActorQueries>()
 						 .AddTypeExtension<AddressQueries>()
 						 .AddTypeExtension<CategoryQueries>()
 						 .AddTypeExtension<CityQueries>()
@@ -124,26 +118,16 @@ internal class Program
 
 	private static void ConfigureApp(WebApplication app)
 	{
-		// Configure the HTTP request pipeline.
 		if (!app.Environment.IsDevelopment())
 		{
 			app.UseExceptionHandler("/Error");
-			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 			app.UseHsts();
 		}
 
 		app.MapGraphQL().WithOptions(new GraphQLServerOptions
 		{
 			EnableBatching = true
-		}); ;
-		//app.MapControllers();
-		//app.UseSwagger();
-		app.UseSwaggerUI(c =>
-		{
-			c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQL-API");
 		});
-		//app.UseHttpsRedirection();
-		//app.UseStaticFiles();
 		app.UseRouting();
 		app.UseAuthorization();
 		app.Run();

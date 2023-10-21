@@ -1,21 +1,17 @@
-﻿using GraphQLParser.AST;
-using HotChocolate.Execution;
-using HotChocolate.Language;
+﻿using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Text;
-using System.Text.Json;
 using RequestDelegate = Microsoft.AspNetCore.Http.RequestDelegate;
-
 
 namespace GraphQL_API.Validation
 {
 	public class DynamicCostAnalysisMiddleware : HttpClientHandler
 	{
-		private readonly RequestDelegate _next;
-		private Stopwatch? _timer;
-		private long _memory;
-		private readonly TimeSpan _timeout;
 		private readonly int _memoryLimitMB;
+		private readonly RequestDelegate _next;
+		private readonly TimeSpan _timeout;
+		private long _memory;
+		private Stopwatch? _timer;
 
 		public DynamicCostAnalysisMiddleware(RequestDelegate next, TimeSpan timeout, int memoryLimitMB)
 		{
@@ -23,6 +19,13 @@ namespace GraphQL_API.Validation
 			_timeout = timeout;
 			_memoryLimitMB = memoryLimitMB;
 		}
+
+		//public DynamicCostAnalysisMiddleware(RequestDelegate next, IOptions<DynamicCostAnalysisMiddlewareOptions> options)
+		//{
+		//	_next = next;
+		//	_timeout = options.Value.Timeout;
+		//	_memoryLimitMB = options.Value.MemoryLimitMB;
+		//}
 
 		public async Task InvokeAsync(HttpContext context)
 		{
@@ -49,7 +52,7 @@ namespace GraphQL_API.Validation
 				{
 					try
 					{
-						await _next(context).WithCancellation(cts.Token); // Call the next middleware in the pipeline
+						await _next(context).WithCancellation(cts.Token);
 
 						if (GC.GetTotalMemory(false) - _memory > _memoryLimitMB)
 						{
@@ -83,7 +86,7 @@ namespace GraphQL_API.Validation
 		}
 
 		private void SaveBannedQuery(string query, long executionTime, long memoryUsage, string reason)
-		{ 
+		{
 			using (StreamWriter sw = File.AppendText("./Logs/BannedQueryLog.txt"))
 			{
 				sw.WriteLine("execution time: {0}, \tmemory usage: {1}, \tbanned reason: {2}, \tquery: {3}",
@@ -94,6 +97,19 @@ namespace GraphQL_API.Validation
 				sw.WriteLine("=====================================================================================");
 			}
 		}
+	}
 
+	public static class DynamicCostAnalysisMiddlewareExtensions
+	{
+		public static IApplicationBuilder UseCustomMiddleware(this IApplicationBuilder builder)
+		{
+			return builder.UseMiddleware<DynamicCostAnalysisMiddleware>();
+		}
+	}
+
+	public class DynamicCostAnalysisMiddlewareOptions
+	{
+		public TimeSpan Timeout { get; set; }
+		public int MemoryLimitMB { get; set; }
 	}
 }

@@ -73,10 +73,7 @@ namespace GraphQL_API.Validation
 		{
 			var error = ErrorBuilder.New()
 									.SetMessage(errorMessage)
-									//.SetCode("MY_ERROR_CODE")
-									//.SetPath(/* the path to the field or operation that caused the error */)
 									.AddLocation(node)
-									//.SetExtension("exception", new Exception("Too many definitions included in query"))
 									.Build();
 
 			context.ReportError(error);

@@ -1,0 +1,298 @@
+﻿schema {
+  query: Query
+}
+
+type Actor {
+  actorId: ID!
+  firstName: String!
+  lastName: String!
+  lastUpdate: DateTime!
+  filmActors: [FilmActor]
+}
+
+type ActorInfo {
+  actorId: ID!
+  firstName: String!
+  lastName: String!
+  filmInfo: String
+}
+
+type AddressEntity {
+  addressId: ID!
+  address: String!
+  address2: String
+  district: String!
+  cityId: ID!
+  postalCode: String
+  phone: ID!
+  lastUpdate: DateTime!
+  City: CityEntity
+  Stores: [Store]
+  Staff: [Staff]
+  city: CityEntity!
+  customers: [Customer!]!
+  staff: [Staff!]!
+  stores: [Store!]!
+}
+
+type Category {
+  categoryId: ID!
+  name: String!
+  lastUpdate: DateTime!
+  FilmCategories: [FilmCategory]
+  filmCategories: [FilmCategory!]!
+}
+
+type CityEntity {
+  cityId: ID!
+  city: String!
+  countryId: ID!
+  lastUpdate: DateTime!
+  Country: Country
+  Addresses: [AddressEntity]
+  addresses: [AddressEntity!]!
+  country: Country!
+}
+
+type Country {
+  countryId: ID!
+  country1: String!
+  lastUpdate: DateTime!
+  Cities: [CityEntity]
+  cities: [CityEntity!]!
+}
+
+type Customer {
+  customerId: ID!
+  storeId: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  addressId: ID!
+  active: Boolean!
+  createDate: DateTime!
+  lastUpdate: DateTime!
+  Address: AddressEntity
+  address: AddressEntity!
+  payments: [Payment!]!
+  rentals: [Rental!]!
+  store: Store!
+}
+
+type CustomerList {
+  id: ID!
+  name: String!
+  address: String!
+  zipCode: String!
+  phone: String!
+  city: String!
+  country: String!
+  notes: String!
+  sid: ID!
+}
+
+type Film {
+  filmId: ID!
+  title: String!
+  description: String!
+  releaseYear: Int!
+  languageId: ID!
+  originalLanguageId: ID
+  rentalDuration: Int!
+  rentalRate: Float!
+  length: Int!
+  replacementCost: Float!
+  rating: String!
+  specialFeatures: String!
+  lastUpdate: DateTime!
+  Language: Language
+  OriginalLanguage: Language
+  filmActors: [FilmActor!]!
+  filmCategories: [FilmCategory!]!
+  inventories: [Inventory!]!
+  language: Language!
+  originalLanguage: Language
+}
+
+type FilmActor {
+  actorId: ID!
+  filmId: ID!
+  lastUpdate: DateTime!
+  actor: Actor
+  film: Film
+}
+
+type FilmCategory {
+  filmId: ID!
+  categoryId: ID!
+  lastUpdate: DateTime!
+  Category: Category
+  Film: Film
+  category: Category!
+  film: Film!
+}
+
+type FilmList {
+  fid: ID!
+  title: String!
+  description: String
+  category: String
+  price: Float!
+  length: Int
+  rating: String
+  actors: String
+}
+
+type FilmText {
+  filmId: ID!
+  title: String!
+  description: String!
+}
+
+type Inventory {
+  inventoryId: ID!
+  filmId: ID!
+  storeId: ID!
+  lastUpdate: DateTime!
+  Film: Film
+  Store: Store
+  film: Film!
+  rentals: [Rental!]!
+  store: Store!
+}
+
+type Language {
+  languageId: ID!
+  name: String!
+  lastUpdate: DateTime!
+  filmLanguages: [Film!]!
+  filmOriginalLanguages: [Film!]!
+}
+
+type NicerButSlowerFilmList {
+  fid: ID!
+  title: String!
+  description: String!
+  category: String!
+  price: Float!
+  length: Int!
+  rating: String!
+  actors: String!
+}
+
+type Payment {
+  paymentId: ID!
+  customerId: ID!
+  staffId: ID!
+  rentalId: ID!
+  amount: Int!
+  paymentDate: DateTime!
+  lastUpdate: DateTime!
+  Customer: Customer
+  Rental: Rental
+  Staff: Staff
+  customer: Customer!
+  rental: Rental
+  staff: Staff!
+}
+
+type Query {
+  actorData(numActors: Int!): [Actor!]!
+  addressData(numAdresses: Int!): [AddressEntity!]!
+  categoryData(numCategories: Int!): [Category!]!
+  cityData(numCities: Int!): [CityEntity!]!
+  countryData(numCountries: Int!): [Country!]!
+  customerData(numCustomers: Int!): [Customer!]!
+  filmActors(numFilmActors: Int!): [FilmActor!]!
+  filmCategoryData(numfilmCatefories: Int!): [FilmCategory!]!
+  filmData(numFilm: Int!): [Film!]!
+  filmTextData(numFilmTexts: Int!): [FilmText!]!
+  inventoryData(numInventories: Int!): [Inventory!]!
+  languageData(numLanguages: Int!): [Language!]!
+  paymentData(numPayment: Int!): [Payment!]!
+  rentalData(numRentals: Int!): [Rental!]!
+  staffData(numStaff: Int!): [Staff!]!
+  storeData(numStores: Int!): [Store!]!
+}
+
+type Rental {
+  rentalId: ID!
+  rentalDate: DateTime!
+  inventoryId: ID!
+  customerId: ID!
+  returnDate: DateTime!
+  staffId: ID!
+  lastUpdate: DateTime!
+  Customer: Customer
+  Inventory: Inventory
+  Staff: Staff
+  customer: Customer!
+  inventory: Inventory!
+  payments: [Payment!]!
+  staff: Staff!
+}
+
+type SalesByFilmCategory {
+  category: String!
+  totalSales: Float!
+}
+
+type SalesByStore {
+  store: String!
+  manager: String!
+  totalSales: Float!
+}
+
+type Staff {
+  staffId: ID!
+  firstName: String!
+  lastName: String!
+  addressId: ID!
+  picture: ByteArray!
+  email: String!
+  storeId: ID!
+  active: Boolean!
+  username: String!
+  password: String!
+  lastUpdate: DateTime!
+  Address: AddressEntity
+  Store: Store
+  address: AddressEntity!
+  payments: [Payment!]!
+  rentals: [Rental!]!
+  store: Store!
+  storeNavigation: Store
+}
+
+type StaffList {
+  id: ID!
+  name: String!
+  address: String!
+  zipCode: String!
+  phone: String!
+  city: String!
+  country: String!
+  sid: ID!
+}
+
+type Store {
+  storeId: ID!
+  managerStaffId: ID!
+  addressId: ID!
+  lastUpdate: DateTime!
+  Address: [AddressEntity]
+  ManagerStaff: [Staff]
+  address: AddressEntity!
+  customers: [Customer!]!
+  inventories: [Inventory!]!
+  managerStaff: Staff!
+  staff: [Staff!]!
+}
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+scalar ByteArray
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime @specifiedBy(url: "https:\/\/www.graphql-scalars.com\/date-time")

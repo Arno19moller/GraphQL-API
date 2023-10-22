@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using RequestDelegate = Microsoft.AspNetCore.Http.RequestDelegate;
 
@@ -20,57 +19,65 @@ namespace GraphQL_API.Validation
 			_memoryLimitMB = memoryLimitMB;
 		}
 
-		//public DynamicCostAnalysisMiddleware(RequestDelegate next, IOptions<DynamicCostAnalysisMiddlewareOptions> options)
-		//{
-		//	_next = next;
-		//	_timeout = options.Value.Timeout;
-		//	_memoryLimitMB = options.Value.MemoryLimitMB;
-		//}
-
 		public async Task InvokeAsync(HttpContext context)
 		{
-			context.Request.EnableBuffering();
-			string requestBody = "";
-
-			context.Request.Body.Position = 0;
-			using (StreamReader reader = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024, true))
+			try
 			{
-				requestBody = await reader.ReadToEndAsync();
-			}
-			context.Request.Body.Position = 0;
+				context.Request.EnableBuffering();
+				string requestBody = "";
 
-			_timer = Stopwatch.StartNew();
-			_memory = GC.GetTotalMemory(false);
-
-			if (IsIntrospectionQuery(requestBody))
-			{
-				await _next(context);
-			}
-			else
-			{
-				using (var cts = new CancellationTokenSource(_timeout))
+				context.Request.Body.Position = 0;
+				using (StreamReader reader = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024, true))
 				{
-					try
-					{
-						await _next(context).WithCancellation(cts.Token);
+					requestBody = await reader.ReadToEndAsync();
+				}
+				context.Request.Body.Position = 0;
 
-						if (GC.GetTotalMemory(false) - _memory > _memoryLimitMB)
+				_timer = Stopwatch.StartNew();
+				_memory = GC.GetTotalMemory(false);
+
+				if (IsIntrospectionQuery(requestBody))
+				{
+					await _next(context);
+				}
+				else
+				{
+					using (var cts = new CancellationTokenSource(_timeout))
+					{
+						try
+						{
+							await _next(context).WithCancellation(cts.Token);
+
+							if (GC.GetTotalMemory(false) - _memory > _memoryLimitMB)
+							{
+								_timer.Stop();
+								_ = Task.Run(() => SaveBannedQuery(requestBody, _timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, "Memory Exceeded"));
+								throw new Exception("Memory Limit Exceeded");
+							}
+						}
+						catch (OperationCanceledException) when (!context.RequestAborted.IsCancellationRequested)
 						{
 							_timer.Stop();
-							_ = Task.Run(() => SaveBannedQuery(requestBody, _timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, "Memory Exceeded"));
-							throw new Exception("Memory Limit Exceeded");
-						}
-					}
-					catch (OperationCanceledException) when (!context.RequestAborted.IsCancellationRequested)
-					{
-						_timer.Stop();
-						_ = Task.Run(() => SaveBannedQuery(requestBody, _timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, "Elapsed Time"));
+							_ = Task.Run(() => SaveBannedQuery(requestBody, _timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, "Elapsed Time"));
 
-						throw new Exception("Operation Took Too Long");
+							throw new Exception("Operation Took Too Long");
+						}
 					}
 				}
 			}
-			_timer.Stop();
+			catch
+			{
+				_ = Task.Run(() => SaveExecutionTelemetry(_timer!.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, false));
+			}
+			finally
+			{
+				if (_timer!.IsRunning)
+				{
+					_timer.Stop();
+					//_ = Task.Run(() => SaveExecutionTelemetry(_timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, true));
+					SaveExecutionTelemetry(_timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, true);
+				}
+			}
 		}
 
 		private bool IsIntrospectionQuery(string query)
@@ -89,11 +96,23 @@ namespace GraphQL_API.Validation
 		{
 			using (StreamWriter sw = File.AppendText("./Logs/BannedQueryLog.txt"))
 			{
-				sw.WriteLine("execution time: {0}, \tmemory usage: {1}, \tbanned reason: {2}, \tquery: {3}",
+				sw.WriteLine("execution time: {0}, \t\tmemory usage: {1}, \t\tbanned reason: {2}, \t\tquery: {3}",
 				 executionTime,
 				 memoryUsage,
 				 reason,
 				 query);
+				sw.WriteLine("=====================================================================================");
+			}
+		}
+
+		private void SaveExecutionTelemetry(long executionTime, long memoryUsage, bool success)
+		{
+			using (StreamWriter sw = File.AppendText("./Logs/ExecutionTelemetry.txt"))
+			{
+				sw.WriteLine("execution time: {0} \t\tmemory usage: {1} \t\tsuccess: {2}",
+				 executionTime,
+				 memoryUsage,
+				 success);
 				sw.WriteLine("=====================================================================================");
 			}
 		}

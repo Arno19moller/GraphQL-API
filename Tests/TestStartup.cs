@@ -5,7 +5,6 @@ using GraphQL_API.Services;
 using GraphQL_API.Services.Interfaces;
 using GraphQL_API.Validation;
 using HotChocolate.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Tests
@@ -15,24 +14,22 @@ namespace GraphQL_API.Tests
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-			services.AddScoped<IActorDataService, ActorDataService>();
-			services.AddScoped<IAddressDataService, AddressDataService>();
-			services.AddScoped<ICategoryDataService, CategoryDataService>();
-			services.AddScoped<ICityDataService, CityDataService>();
-			services.AddScoped<ICountryDataService, CountryDataService>();
-			services.AddScoped<ICustomerDataService, CustomerDataService>();
-			services.AddScoped<IFilmActorDataService, FilmActorDataService>();
-			services.AddScoped<IFilmCategoryDataService, FilmCategoryDataService>();
-			services.AddScoped<IFilmDataService, FilmDataService>();
-			services.AddScoped<IFilmTextDataService, FilmTextDataService>();
-			services.AddScoped<IInventoryDataService, InventoryDataService>();
-			services.AddScoped<ILanguageDataService, LanguageDataService>();
-			services.AddScoped<IPaymentDataService, PaymentDataService>();
-			services.AddScoped<IRentalDataService, RentalDataService>();
-			services.AddScoped<IStaffDataService, StaffDataService>();
-			services.AddScoped<IStoreDataService, StoreDataService>();
-
-			services
+			services.AddScoped<IActorDataService, ActorDataService>()
+				.AddScoped<IAddressDataService, AddressDataService>()
+				.AddScoped<ICategoryDataService, CategoryDataService>()
+				.AddScoped<ICityDataService, CityDataService>()
+				.AddScoped<ICountryDataService, CountryDataService>()
+				.AddScoped<ICustomerDataService, CustomerDataService>()
+				.AddScoped<IFilmActorDataService, FilmActorDataService>()
+				.AddScoped<IFilmCategoryDataService, FilmCategoryDataService>()
+				.AddScoped<IFilmDataService, FilmDataService>()
+				.AddScoped<IFilmTextDataService, FilmTextDataService>()
+				.AddScoped<IInventoryDataService, InventoryDataService>()
+				.AddScoped<ILanguageDataService, LanguageDataService>()
+				.AddScoped<IPaymentDataService, PaymentDataService>()
+				.AddScoped<IRentalDataService, RentalDataService>()
+				.AddScoped<IStaffDataService, StaffDataService>()
+				.AddScoped<IStoreDataService, StoreDataService>()
 				.AddScoped<IActorDataService, ActorDataService>()
 				.AddScoped<IAddressDataService, AddressDataService>()
 				.AddScoped<ICategoryDataService, CategoryDataService>()

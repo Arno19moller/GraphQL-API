@@ -52,7 +52,6 @@ namespace GraphQL_API.Validation
 							{
 								_timer.Stop();
 								_ = Task.Run(() => SaveBannedQuery(requestBody, _timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, "Memory Exceeded"));
-								throw new Exception("Memory Limit Exceeded");
 							}
 						}
 						catch (OperationCanceledException) when (!context.RequestAborted.IsCancellationRequested)
@@ -65,7 +64,7 @@ namespace GraphQL_API.Validation
 					}
 				}
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				_ = Task.Run(() => SaveExecutionTelemetry(_timer!.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, false));
 				throw;
@@ -75,8 +74,8 @@ namespace GraphQL_API.Validation
 				if (_timer!.IsRunning)
 				{
 					_timer.Stop();
-					_ = Task.Run(() => SaveExecutionTelemetry(_timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, true));
 				}
+				_ = Task.Run(() => SaveExecutionTelemetry(_timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, true));
 			}
 		}
 
@@ -94,11 +93,14 @@ namespace GraphQL_API.Validation
 
 		private void SaveBannedQuery(string query, long executionTime, long memoryUsage, string reason)
 		{
+			var memoryUsageMB = (decimal)memoryUsage / 1048576M;
+			var executionTimeSeconds = (decimal)executionTime / 1000M;
+
 			using (StreamWriter sw = File.AppendText("./Logs/BannedQueryLog.txt"))
 			{
 				sw.WriteLine("execution time: {0}, \t\tmemory usage: {1}, \t\tbanned reason: {2}, \t\tquery: {3}",
-				 executionTime,
-				 memoryUsage,
+				 executionTimeSeconds,
+				 memoryUsageMB,
 				 reason,
 				 query);
 				sw.WriteLine("=====================================================================================");

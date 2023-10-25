@@ -50,13 +50,17 @@ public class FilmType : ObjectType<Film>
             .Type<NonNullType<DateTimeType>>();
 
         descriptor.Field<FilmType>(a => a.ResolveLanguage(default, default, default))
-            .Name("Language")
+            .Name("language")
             .Type<LanguageType>();
 
         descriptor.Field<FilmType>(a => a.ResolveOriginalLanguage(default, default, default))
-            .Name("OriginalLanguage")
+            .Name("originalLanguage")
             .Type<LanguageType>();
-    }
+
+		descriptor.Field<FilmType>(a => a.ResolveInventories(default, default, default))
+			.Name("inventories")
+			.Type<ListType<InventoryType>>();
+	}
 
     public async Task<Language> ResolveLanguage(IResolverContext context, [Parent] Film film, [Service] SakilaContext dbContext)
     {
@@ -77,4 +81,15 @@ public class FilmType : ObjectType<Film>
             })
         .LoadAsync(film.OriginalLanguageId);
     }
+
+	public async Task<IEnumerable<Inventory>> ResolveInventories(IResolverContext context, [Parent] Film film, [Service] SakilaContext dbContext)
+	{
+		return await context.BatchDataLoader<ushort, IEnumerable<Inventory>>(
+			async (ids, ct) =>
+			{
+				var inventoriesByFilmId = await dbContext.Inventories.Where(x => ids.Contains(x.FilmId)).ToListAsync(ct);
+				return ids.ToDictionary(id => id, id => inventoriesByFilmId.Where(inventory => inventory.FilmId == id).AsEnumerable());
+			})
+		.LoadAsync(film.FilmId);
+	}
 }

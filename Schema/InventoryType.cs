@@ -1,6 +1,10 @@
 ﻿using GraphQL_API.Context;
 using HotChocolate.Resolvers;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using GraphQL_API.Context;
+using HotChocolate.Resolvers;
+using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL_API.Data;
 
@@ -23,13 +27,17 @@ public class InventoryType : ObjectType<Inventory>
             .Type<NonNullType<DateTimeType>>();
 
         descriptor.Field<InventoryType>(a => a.ResolveFilm(default, default, default))
-             .Name("Film")
+             .Name("film")
              .Type<FilmType>();
 
         descriptor.Field<InventoryType>(a => a.ResolveStore(default, default, default))
-             .Name("Store")
+             .Name("store")
              .Type<StoreType>();
-    }
+
+		descriptor.Field<InventoryType>(a => a.ResolveRentals(default, default, default))
+			 .Name("rentals")
+			 .Type<ListType<RentalType>>();
+	}
     public async Task<Film> ResolveFilm(IResolverContext context, [Parent] Inventory inventory, [Service] SakilaContext dbContext)
     {
         return await context.BatchDataLoader<ushort, Film>(
@@ -49,4 +57,15 @@ public class InventoryType : ObjectType<Inventory>
             })
         .LoadAsync(inventory.StoreId);
     }
+
+	public async Task<IEnumerable<Rental>> ResolveRentals(IResolverContext context, [Parent] Inventory inventory, [Service] SakilaContext dbContext)
+	{
+		return await context.BatchDataLoader<uint, IEnumerable<Rental>>(
+			async (ids, ct) =>
+			{
+				var rentalsByInventoryId = await dbContext.Rentals.Where(x => ids.Contains(x.InventoryId)).ToListAsync(ct);
+				return ids.ToDictionary(id => id, id => rentalsByInventoryId.Where(rental => rental.InventoryId == id).AsEnumerable());
+			})
+		.LoadAsync(inventory.InventoryId);
+	}
 }

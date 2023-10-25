@@ -29,8 +29,11 @@ namespace GraphQL_API.Tests
 		//[InlineData("query ActorData { actorData(numActors: 1000) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate } } }")]
 		//[InlineData("query ActorData { actorData(numActors: 5) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate film { filmId title description releaseYear languageId originalLanguageId rentalDuration rentalRate length replacementCost rating specialFeatures lastUpdate } } } } ")]
 		//[InlineData("query ActorData { actorData(numActors: 1000) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate film { filmId title description releaseYear languageId originalLanguageId rentalDuration rentalRate length replacementCost rating specialFeatures lastUpdate } } } } ")]
-		//[InlineData("query StoreData { storeData(numStores: 5) { storeId managerStaffId addressId lastUpdate } } ")]
-		[InlineData("query StaffData { staffData(numStaff: 5) { staffId firstName lastName addressId picture email storeId active username password lastUpdate } } ")]
+		[InlineData("query ActorData { actorData(numActors: 5) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate film { inventories { inventoryId rentals { rentalId } } } } } } ")]
+		[InlineData("query ActorData { actorData(numActors: 5) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate film { inventories { inventoryId rentals { rentalId rentalDate } } } } } } ")]
+		[InlineData("query ActorData { actorData(numActors: 5) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate film { inventories { inventoryId rentals { rentalId inventoryId} } } } } } ")]
+		[InlineData("query ActorData { actorData(numActors: 5) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate film { inventories { inventoryId rentals { rentalId customerId} } } } } } ")]
+		[InlineData("query ActorData { actorData(numActors: 5) { actorId firstName lastName lastUpdate filmActors { actorId filmId lastUpdate film { inventories { inventoryId rentals { rentalId returnDate} } } } } } ")]
 		public async Task FilmActorsQuery_ReturnsSuccessStatusCode(string query)
 		{
 			// Act

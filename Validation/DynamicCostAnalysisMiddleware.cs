@@ -65,17 +65,17 @@ namespace GraphQL_API.Validation
 					}
 				}
 			}
-			catch
+			catch(Exception ex)
 			{
 				_ = Task.Run(() => SaveExecutionTelemetry(_timer!.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, false));
+				throw;
 			}
 			finally
 			{
 				if (_timer!.IsRunning)
 				{
 					_timer.Stop();
-					//_ = Task.Run(() => SaveExecutionTelemetry(_timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, true));
-					SaveExecutionTelemetry(_timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, true);
+					_ = Task.Run(() => SaveExecutionTelemetry(_timer.ElapsedMilliseconds, GC.GetTotalMemory(false) - _memory, true));
 				}
 			}
 		}
@@ -107,11 +107,15 @@ namespace GraphQL_API.Validation
 
 		private void SaveExecutionTelemetry(long executionTime, long memoryUsage, bool success)
 		{
+			//var mb = Math.Pow(1024, 2);
+			var memoryUsageMB = (decimal)memoryUsage / 1048576M;
+			var executionTimeSeconds = (decimal)executionTime / 1000M;
+
 			using (StreamWriter sw = File.AppendText("./Logs/ExecutionTelemetry.txt"))
 			{
-				sw.WriteLine("execution time: {0} \t\tmemory usage: {1} \t\tsuccess: {2}",
-				 executionTime,
-				 memoryUsage,
+				sw.WriteLine("execution time: {0}s \t\tmemory usage: {1}mb \t\tsuccess: {2}",
+				 Decimal.Round(executionTimeSeconds, 8),
+				 Decimal.Round(memoryUsageMB, 8),
 				 success);
 				sw.WriteLine("=====================================================================================");
 			}

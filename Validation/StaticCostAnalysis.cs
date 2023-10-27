@@ -13,8 +13,11 @@ namespace GraphQL_API.Validation
 		private int _definitionSetLimit = -1;
 		private int _definitionSetFieldLimit = -1;
 
+
 		public void Validate(IDocumentValidatorContext context, DocumentNode document)
 		{
+			context.Allowed = 0;
+
 			if (IsIntrospectionQuery(document.ToString())) return;
 
 			CheckDefinitionLimit(document, context);
@@ -26,6 +29,7 @@ namespace GraphQL_API.Validation
 			if (_definitionLimit > -1 && document.Definitions.Count > _definitionLimit)
 			{
 				AppendError(context, "Too many definitions included in query", document);
+				throw new Exception("Static - Too many definitions included in query");
 			}
 		}
 
@@ -40,6 +44,7 @@ namespace GraphQL_API.Validation
 					if (_definitionSetLimit > -1 && selections.Count > _definitionSetLimit)
 					{
 						AppendError(context, "Too many definition sets included in query", definition);
+						throw new Exception("Static - Too many definition sets included in query");
 					}
 					CheckDepth(context, selections, 0);
 				}
@@ -55,12 +60,14 @@ namespace GraphQL_API.Validation
 					if (_depthLimit > -1 && depth > _depthLimit)
 					{
 						AppendError(context, "Query depth too large", selection);
+						throw new Exception("Static - Query depth too large");
 					}
 					else if (field.SelectionSet != null)
 					{
 						if (_definitionSetFieldLimit > -1 && field.SelectionSet.Selections.Count > _definitionSetFieldLimit)
 						{
 							AppendError(context, "Too many fields in definition sets included in query", field.SelectionSet);
+							throw new Exception("Static - Too many fields in definition sets included in query");
 						}
 
 						CheckDepth(context, field.SelectionSet.Selections, depth + 1);

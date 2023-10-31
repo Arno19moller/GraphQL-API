@@ -1,41 +1,41 @@
 =====================================================================================
-execution time: 4.032s 		memory usage: 28.00685120mb 		success: False
+execution time: 0.171s 		memory usage: 28.00685120MB 		success: True
 =====================================================================================
-execution time: 5.339s 		memory usage: 39.81040192mb 		success: False
+execution time: 0.339s 		memory usage: 39.81040192MB 		success: True
 =====================================================================================
-execution time: 0.169s 		memory usage: 39.80215454mb 		success: True
+execution time: 0.169s 		memory usage: 39.80215454MB 		success: True
 =====================================================================================
-execution time: 0.163s 		memory usage: 39.80261993mb 		success: True
+execution time: 0.163s 		memory usage: 39.80261993MB 		success: True
 =====================================================================================
-execution time: 0.128s 		memory usage: 39.80986023mb 		success: True
+execution time: 0.128s 		memory usage: 39.80986023MB 		success: True
 =====================================================================================
-execution time: 0.157s 		memory usage: 39.80812836mb 		success: True
+execution time: 0.157s 		memory usage: 39.80812836MB 		success: True
 =====================================================================================
-execution time: 0.153s 		memory usage: 39.77121735mb 		success: True
+execution time: 0.153s 		memory usage: 39.77121735MB 		success: True
 =====================================================================================
-execution time: 0.136s 		memory usage: 39.76979828mb 		success: True
+execution time: 0.136s 		memory usage: 39.76979828MB 		success: True
 =====================================================================================
-execution time: 0.142s 		memory usage: 39.80500793mb 		success: True
+execution time: 0.142s 		memory usage: 39.80500793MB 		success: True
 =====================================================================================
-execution time: 0.14s 		memory usage: 39.75157166mb 		success: True
+execution time: 0.14s 		memory usage: 39.75157166MB 		success: True
 =====================================================================================
-execution time: 0.182s 		memory usage: 39.77494049mb 		success: True
+execution time: 0.182s 		memory usage: 39.77494049MB 		success: True
 =====================================================================================
-execution time: 0.154s 		memory usage: 39.75380707mb 		success: True
+execution time: 0.154s 		memory usage: 39.75380707MB 		success: True
 =====================================================================================
-execution time: 0.196s 		memory usage: 39.75297546mb 		success: True
+execution time: 0.196s 		memory usage: 39.75297546MB 		success: True
 =====================================================================================
-execution time: 0.157s 		memory usage: 39.76619720mb 		success: True
+execution time: 0.157s 		memory usage: 39.76619720MB 		success: True
 =====================================================================================
-execution time: 0.157s 		memory usage: 39.75521851mb 		success: True
+execution time: 0.157s 		memory usage: 39.75521851MB 		success: True
 =====================================================================================
-execution time: 0.122s 		memory usage: 39.77155304mb 		success: True
+execution time: 0.122s 		memory usage: 39.77155304MB 		success: True
 =====================================================================================
-execution time: 0.153s 		memory usage: 39.77930450mb 		success: True
+execution time: 0.153s 		memory usage: 39.77930450MB 		success: True
 =====================================================================================
-execution time: 0.127s 		memory usage: 39.75537109mb 		success: True
+execution time: 0.127s 		memory usage: 39.75537109MB 		success: True
 =====================================================================================
-execution time: 0.129s 		memory usage: 39.80874634mb 		success: True
+execution time: 0.129s 		memory usage: 39.80874634MB 		success: True
 =====================================================================================
-execution time: 0.12s 		memory usage: 39.76918030mb 		success: True
+execution time: 0.12s 		memory usage: 39.76918030MB 		success: True
 =====================================================================================
